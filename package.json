@@ -1,0 +1,54 @@
+{
+  "name": "n8n-nodes-efibank",
+  "version": "1.0.1",
+  "description": "Nó personalizado para integração com as APIs Cobranças e Pix do Efibank, permitindo operações de pagamentos, recebimentos e gerenciamento de transações financeiras.",
+  "keywords": [
+    "n8n-community-node-package", "n8n", "efibank", "pagamentos", "pix", "cobranças"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "author": "Efi Bank - Consultoria Técnica | Jéssica Gava | Ana Paiva",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/efipay/n8n-nodes-efibank.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc && gulp build:icons",
+    "dev": "tsc --watch",
+    "format": "prettier nodes credentials --write",
+    "lint": "eslint nodes credentials package.json",
+    "lintfix": "eslint nodes credentials package.json --fix"
+  },
+  "files": [
+    "dist"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "credentials": [
+      "dist/credentials/EfiBankCobApi.credentials.credentials.js",
+      "dist/credentials/EfiBankPixApi.credentials.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/EfiBankCobrancas/EfiBankCobrancas.node.js",
+      "dist/nodes/EfiBankPix/EfiBankPix.node.js"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "@types/node-forge": "^1.3.11",
+    "@typescript-eslint/parser": "~5.45",
+    "eslint-plugin-n8n-nodes-base": "^1.11.0",
+    "gulp": "^4.0.2",
+    "n8n-workflow": "*",
+    "prettier": "^2.7.1",
+    "typescript": "~4.8.4"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  },
+  "dependencies": {
+    "node-forge": "^1.3.1",
+    "sdk-node-apis-efi": "^1.2.18"
+  }
+}
