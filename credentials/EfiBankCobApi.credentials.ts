@@ -60,18 +60,14 @@ export class EfiBankCobApi implements ICredentialType {
 	): Promise<IHttpRequestOptions> {
 		const isProd = credentials.environment === 'prod';
 
-    // Seleciona as credenciais corretas
     const clientId = isProd ? credentials.clientIdProd : credentials.clientIdHomolog;
     const clientSecret = isProd ? credentials.clientSecretProd : credentials.clientSecretHomolog;
 
-    // Codificar em Base64
     const encodedApiKey = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
 
-    // Garantir que headers e body estão inicializados
     requestOptions.headers = requestOptions.headers || {};
     requestOptions.body = requestOptions.body || {};
 
-    // Adicionar os cabeçalhos e o corpo da requisição
     requestOptions.headers.Authorization = `Basic ${encodedApiKey}`;
     requestOptions.headers['Content-Type'] = 'application/json';
 		(requestOptions.body as Record<string, any>)['grant_type'] = 'client_credentials';
@@ -79,7 +75,6 @@ export class EfiBankCobApi implements ICredentialType {
     return requestOptions;
 	}
 
-	// Configuração para o teste de credenciais
 		test: ICredentialTestRequest = {
 				request: {
 						baseURL: '={{$credentials.environment === "prod" ? "https://cobrancas.api.efipay.com.br" : "https://cobrancas-h.api.efipay.com.br" }}',

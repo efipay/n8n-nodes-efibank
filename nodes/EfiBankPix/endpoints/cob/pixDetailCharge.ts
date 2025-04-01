@@ -10,27 +10,43 @@ export async function pixDetailCharge(
     const options = await getEfiBankConfig.call(context);
     const efipay = new EfiPay(options);
 
-    // Obtém os parâmetros do node
     const txid = context.getNodeParameter('txid', index) as string;
-    
-    // Passa o txid como primeiro argumento da função
+
     const resposta = await efipay.pixDetailCharge({ txid });
     return resposta;
   } catch (error: any) {
-    // Verifica se o erro tem uma propriedade 'violacoes'
+    let mensagemErro = error.message || error.mensagem || error.detail || "Ocorreu um erro desconhecido";
+    
+    if (typeof error === 'string') {
+      mensagemErro = error;
+    } else if (error.response && error.response.data) {
+      if (typeof error.response.data === 'string') {
+        try {
+          const parsedData = JSON.parse(error.response.data);
+          mensagemErro = parsedData.message || parsedData.mensagem || mensagemErro;
+        } catch {
+          mensagemErro = error.response.data;
+        }
+      } else {
+        mensagemErro = error.response.data.message || error.response.data.mensagem || mensagemErro;
+      }
+    }
+
+    if (mensagemErro.includes("sandbox") || mensagemErro.includes("certificate")) {
+      throw new Error("Verifique o atributo sandbox e certificate, e garanta que eles estejam corretamente atribuídos para o ambiente desejado.");
+    }
+
     if (error.violacoes && error.violacoes.length > 0) {
-      // Pega a primeira violação (ou você pode adicionar lógica para pegar todas)
       const primeiraViolacao = error.violacoes[0];
       throw new Error(JSON.stringify({
         razao: primeiraViolacao.razao,
         propriedade: primeiraViolacao.propriedade
       }));
-    } else {
-      // Mantém o tratamento de erro anterior para outros tipos de erros
-      throw new Error(JSON.stringify({
-        nome: error.nome || 'erro_desconhecido',
-        mensagem: error.mensagem || error.detail || 'Ocorreu um erro desconhecido',
-      }));
     }
+
+    throw new Error(JSON.stringify({
+      nome: error.nome || error.code || 'erro_desconhecido',
+      mensagem: mensagemErro
+    }));
   }
 }

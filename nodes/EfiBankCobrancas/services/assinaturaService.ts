@@ -61,10 +61,10 @@ export async function assinaturaService(
                 requestOptions = await definirFormaPagamento(this, i, baseURL, accessToken, definirFormaPagamentoId);
                 break;
 
-						case 'retentativaCartao':
-							const retentativaId = this.getNodeParameter('chargeId', i) as string;
-								requestOptions = await retentativaCartao(baseURL, accessToken, retentativaId);
-								break;
+            case 'retentativaCartao':
+                const retentativaId = this.getNodeParameter('chargeId', i) as string;
+                requestOptions = await retentativaCartao(baseURL, accessToken, retentativaId);
+                break;
 
             case 'retornarAssinaturaVinculada':
                 const retornarAssinaturaVinculadaId = this.getNodeParameter('subscriptionId', i) as string;

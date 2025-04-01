@@ -3,7 +3,6 @@ import {
 	INodeProperties,
 	ICredentialDataDecryptedObject,
 	IHttpRequestOptions,
-	ICredentialTestRequest,
 } from 'n8n-workflow';
 
 
@@ -75,29 +74,24 @@ export class EfiBankPixApi implements ICredentialType {
 
 	private convertPemToP12Base64(credentials: ICredentialDataDecryptedObject): string {
 		try {
-			// Obter os dados PEM das credenciais e remover possíveis quebras de linha incorretas
 			const certificatePem = String(credentials.certificatePem || "").replace(/\\n/g, "\n");
 			const keyPem = String(credentials.keyPem || "").replace(/\\n/g, "\n");
 
-			// Converter PEM para objetos forge
 			const certificate = forge.pki.certificateFromPem(certificatePem);
 			const privateKey = forge.pki.privateKeyFromPem(keyPem);
 
-			// Criar PKCS#12 sem senha
 			const p12Asn1 = forge.pkcs12.toPkcs12Asn1(
 				privateKey,
 				[certificate],
-				'', // Sem senha
+				'', 
 				{
 					friendlyName: 'Efi Bank Certificate',
 					generateLocalKeyId: true,
 				}
 			);
 
-			// Converter para DER
 			const p12Der = forge.asn1.toDer(p12Asn1).getBytes();
 
-			// Converter P12 para Base64
 			const certificate_base64 = Buffer.from(p12Der, 'binary').toString('base64');
 
         return certificate_base64;
@@ -111,28 +105,21 @@ export class EfiBankPixApi implements ICredentialType {
 		credentials: ICredentialDataDecryptedObject,
 		requestOptions: IHttpRequestOptions
 	): Promise<IHttpRequestOptions> {
-		// 1. Obter dados do usuário
 		const isProd = credentials.environment === "prod";
 
-		// Seleciona as credenciais corretas
 		const clientId = isProd ? credentials.clientIdProd : credentials.clientIdHomolog;
 		const clientSecret = isProd ? credentials.clientSecretProd : credentials.clientSecretHomolog;
 
-		// Codificar credenciais em Base64 para autenticação
 		const encodedApiKey = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
 
-		// Converter certificado para base64
 		const certificate_base64 = this.convertPemToP12Base64(credentials);
 
-		// Garantir que headers e body estão inicializados
 		requestOptions.headers = requestOptions.headers || {};
 		requestOptions.body = requestOptions.body || {};
 
-		// Adicionar os cabeçalhos da requisição
 		requestOptions.headers.Authorization = `Basic ${encodedApiKey}`;
 		requestOptions.headers["Content-Type"] = "application/json";
 
-		// Adicionar grant_type e certificado em base64 no corpo
 		const bodyData = requestOptions.body as Record<string, any>;
 		bodyData.grant_type = "client_credentials";
 		bodyData.certificate_base64 = certificate_base64;
@@ -147,12 +134,4 @@ export class EfiBankPixApi implements ICredentialType {
 		return requestOptions;
 	}
 
-	// Configuração para o teste de credenciais
-	test: ICredentialTestRequest = {
-		request: {
-			baseURL: '={{$credentials.environment === "prod" ? "https://pix.api.efipay.com.br" : "https://pix-h.api.efipay.com.br" }}',
-			url: '/oauth/token',
-			method: 'POST',
-		},
-	};
 }

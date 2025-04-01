@@ -1,46 +1,74 @@
 ![Banner image](https://user-images.githubusercontent.com/10284570/173569848-c624317f-42b1-45a6-ab09-f0ea3c247648.png)
 
-# n8n-nodes-starter
+# n8n-nodes-efibank
 
-This repo contains example nodes to help you get started building your own custom integrations for [n8n](n8n.io). It includes the node linter and other dependencies.
+O n8n-nodes-efibank é um nó personalizado para o n8n que facilita a integração com a API de Cobranças e a API Pix do Efibank, permitindo a automação de fluxos de trabalho relacionados a pagamentos, recebimentos, e transações financeiras.
 
-To make your custom node available to the community, you must create it as an npm package, and [submit it to the npm registry](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry).
+[requisitos](#requisitos) 
+[Instalação](#instalação)  
+[Instalação para usuários finais](#instalação-para-usuários-finais)
+[Configuração](#configuração)  
 
-## Prerequisites
+## Requisitos
 
-You need the following installed on your development machine:
+### Versão do Node.js
+Este nó personalizado requer uma versão do Node.js compatível com o n8n. A versão mínima do Node.js necessária é 18.17, e a versão máxima suportada é 22.
 
-* [git](https://git-scm.com/downloads)
-* Node.js and pnpm. Minimum version Node 18. You can find instructions on how to install both using nvm (Node Version Manager) for Linux, Mac, and WSL [here](https://github.com/nvm-sh/nvm). For Windows users, refer to Microsoft's guide to [Install NodeJS on Windows](https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows).
-* Install n8n with:
-  ```
-  pnpm install n8n -g
-  ```
-* Recommended: follow n8n's guide to [set up your development environment](https://docs.n8n.io/integrations/creating-nodes/build/node-development-environment/).
+## Instalação
 
-## Using this starter
+Para instalar este nó personalizado, você precisa:
 
-These are the basic steps for working with the starter. For detailed guidance on creating and publishing nodes, refer to the [documentation](https://docs.n8n.io/integrations/creating-nodes/).
+1. Instalar as dependências:
+```bash
+npm install
+```
 
-1. [Generate a new repository](https://github.com/n8n-io/n8n-nodes-starter/generate) from this template repository.
-2. Clone your new repo:
-   ```
-   git clone https://github.com/<your organization>/<your-repo-name>.git
-   ```
-3. Run `pnpm i` to install dependencies.
-4. Open the project in your editor.
-5. Browse the examples in `/nodes` and `/credentials`. Modify the examples, or replace them with your own nodes.
-6. Update the `package.json` to match your details.
-7. Run `pnpm lint` to check for errors or `pnpm lintfix` to automatically fix errors when possible.
-8. Test your node locally. Refer to [Run your node locally](https://docs.n8n.io/integrations/creating-nodes/test/run-node-locally/) for guidance.
-9. Replace this README with documentation for your node. Use the [README_TEMPLATE](README_TEMPLATE.md) to get started.
-10. Update the LICENSE file to use your details.
-11. [Publish](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry) your package to npm.
+2. Compilar o código:
+```bash
+npm run build
+```
 
-## More information
+3. Link para uso local (desenvolvimento):
+```bash
+npm link
+```
 
-Refer to our [documentation on creating nodes](https://docs.n8n.io/integrations/creating-nodes/) for detailed information on building your own nodes.
+4. Iniciar o n8n:
+```bash
+n8n
+```
 
-## License
+## Instalação para usuários finais via NPM
 
-[MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
+Para instalar apenas o nó em uma instalação existente do n8n:
+
+```bash
+npm install n8n-nodes-efibank
+```
+
+## Instalação para usuários finais via Git
+
+O nó também está disponível em nosso repositório no Github da [Efí](https://github.com/efipay/n8n-nodes-efibank).
+
+```bash
+git clone https://github.com/efipay/n8n-nodes-efibank.git
+```
+
+## Configuração
+
+### API Cobranças
+Na interface do n8n, configure suas credenciais:
+1. Selecione o ambiente (Homologação/Produção)
+2. Configure as credenciais Client ID e Client Secret para os dois ambientes. Para obter as credencias da aplicação, você pode acessar [esse tutorial](https://dev.efipay.com.br/docs/api-cobrancas/credenciais#obtendo-as-credenciais-da-aplica%C3%A7%C3%A3o).
+
+### API Pix
+Na interface do n8n, configure suas credenciais:
+1. Selecione o ambiente (Homologação/Produção)
+2. Configure as credenciais Client ID e Client Secret para os dois ambientes. Para obter as credencias da aplicação, você pode acessar [esse tutorial](https://dev.efipay.com.br/docs/api-cobrancas/credenciais#obtendo-as-credenciais-da-aplica%C3%A7%C3%A3o).
+3. Configure o certificado:
+   - Gere um certificado em sua conta Efí, veja como [clicando aqui](https://sejaefi.com.br/central-de-ajuda/api/como-gerar-o-certificado-para-usar-a-api-pix?_gl=1*96b3d4*_gcl_au*MTgzNDQxMDgyMi4xNzQzNTA2MDI5#conteudo)
+   - Faça upload do certificado na página de conversão e clique em "Codificar e Exibir", [clicando aqui](https://efipay.github.io/encode-credentials/certificado.html)
+   - Copie o conteúdo do Certificado e cole no campo "Certificado"
+   - Copie o conteúdo da Key e cole no campo "Key"
+
+
