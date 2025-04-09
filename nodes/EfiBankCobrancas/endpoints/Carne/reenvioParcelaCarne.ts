@@ -1,8 +1,9 @@
 import { IHttpRequestOptions } from 'n8n-workflow';
+import { version } from '../../../../package.json';
 
 export async function reenvioParcelaCarne(
 	baseURL: string,
-  accessToken: string,
+  access_token: string,
   carneId: string,
   parcela: string,
   email: string
@@ -12,7 +13,10 @@ export async function reenvioParcelaCarne(
     method: 'POST',
     url: `${baseURL}/v1/carnet/${carneId}/parcel/${parcela}/resend`,
     json: true,
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { 
+      Authorization: `Bearer ${access_token}`,
+      'api-sdk': `efi-n8n-${version}`
+    },
     body: {
       email: email,
     },

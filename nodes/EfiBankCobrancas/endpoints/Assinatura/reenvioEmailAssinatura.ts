@@ -1,4 +1,5 @@
 import { IHttpRequestOptions } from 'n8n-workflow';
+import { version } from '../../../../package.json';
 
 export async function reenvioEmailAssinatura(
 	baseURL: string,
@@ -11,8 +12,9 @@ export async function reenvioEmailAssinatura(
     method: 'POST',
     url: `${baseURL}/v1/charge/${chargeId}/subscription/resend`,
     json: true,
-    headers: {
+     headers: { 
       Authorization: `Bearer ${access_token}`,
+      'api-sdk': `efi-n8n-${version}`
     },
     body: {
       email,

@@ -1,5 +1,5 @@
 
-import { IExecuteFunctions, IHttpRequestOptions } from 'n8n-workflow';
+import { IHttpRequestOptions, IExecuteFunctions } from 'n8n-workflow';
 import { pixCreateDueChargeBatch } from '../endpoints/batch/pixCreateDueChargeBatch';
 import { pixUpdateDueChargeBatch } from '../endpoints/batch/pixUpdateDueChargeBatch';
 import { pixDetailDueChargeBatch } from '../endpoints/batch/pixDetailDueChargeBatch';

@@ -1,8 +1,9 @@
 import { IHttpRequestOptions } from 'n8n-workflow';
+import { version } from '../../../../package.json';
 
 export async function marcarComoPagoCarne(
 	baseURL: string,
-  accessToken: string,
+  access_token: string,
   carneId: string
 ): Promise<IHttpRequestOptions> {
 
@@ -10,6 +11,9 @@ export async function marcarComoPagoCarne(
     method: 'PUT',
     url: `${baseURL}/v1/carnet/${carneId}/settle`,
     json: true,
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { 
+      Authorization: `Bearer ${access_token}`,
+      'api-sdk': `efi-n8n-${version}`
+    },
   };
 }

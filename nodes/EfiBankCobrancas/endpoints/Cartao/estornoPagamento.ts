@@ -1,4 +1,5 @@
 import { IHttpRequestOptions} from 'n8n-workflow';
+import { version } from '../../../../package.json';
 
 export async function estornoPagamento(
 	baseURL: string,
@@ -12,7 +13,10 @@ export async function estornoPagamento(
     method: 'POST',
     url: `${baseURL}/v1/charge/card/${chargeId}/refund`,
     json: true,
-    headers: { Authorization: `Bearer ${access_token}` },
+    headers: { 
+      Authorization: `Bearer ${access_token}`,
+      'api-sdk': `efi-n8n-${version}`
+    },
     body: {
       amount: amount,
     },

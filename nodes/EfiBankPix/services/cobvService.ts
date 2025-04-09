@@ -1,4 +1,4 @@
-import { IExecuteFunctions, IHttpRequestOptions } from 'n8n-workflow';
+import { IHttpRequestOptions, IExecuteFunctions } from 'n8n-workflow';
 import { pixCreateDueCharge } from '../endpoints/cobv/pixCreateDueCharge';
 import { pixUpdateDueCharge } from '../endpoints/cobv/pixUpdateDueCharge';
 import { pixDetailDueCharge } from '../endpoints/cobv/pixDetailDueCharge';

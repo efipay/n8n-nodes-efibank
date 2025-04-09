@@ -21,91 +21,91 @@ export async function assinaturaService(
     endpoint: string,
     i: number,
 		baseURL: string,
-    accessToken: string
+    access_token: string
 ): Promise<IHttpRequestOptions> {
     let requestOptions: IHttpRequestOptions;
 
     try {
         switch (endpoint) {
             case 'criarPlanoAssinatura':
-                requestOptions = await criarPlanoAssinatura(this, i, baseURL, accessToken);
+                requestOptions = await criarPlanoAssinatura(this, i, baseURL, access_token);
                 break;
 
             case 'retornarInformacoesPlano':
-                requestOptions = await retornarInformacoesPlano(baseURL, accessToken);
+                requestOptions = await retornarInformacoesPlano(baseURL, access_token);
                 break;
 
             case 'editarNomePlano':
                 const permitirEdicaoId = this.getNodeParameter('planId', i) as string;
                 const nome_plano = this.getNodeParameter('nome_plano', i) as string;
-                requestOptions = await editarNomePlano(baseURL, accessToken, permitirEdicaoId, nome_plano);
+                requestOptions = await editarNomePlano(baseURL, access_token, permitirEdicaoId, nome_plano);
                 break;
 
             case 'cancelarPlanoAssinatura':
                 const cancelarPlanoId = this.getNodeParameter('planId', i) as string;
-                requestOptions = await cancelarPlanoAssinatura(baseURL, accessToken, cancelarPlanoId);
+                requestOptions = await cancelarPlanoAssinatura(baseURL, access_token, cancelarPlanoId);
                 break;
 
             case 'criarInscricoesOneStep':
                 const criarInscricoesOneStepId = this.getNodeParameter('planId', i) as string;
-                requestOptions = await criarInscricoesOneStep(this, i, baseURL, accessToken, criarInscricoesOneStepId);
+                requestOptions = await criarInscricoesOneStep(this, i, baseURL, access_token, criarInscricoesOneStepId);
                 break;
 
             case 'criarInscricoesTwoSteps':
                 const criarInscricoesTwoStepsId = this.getNodeParameter('planId', i) as string;
-                requestOptions = await criarInscricoesTwoSteps(this, i, baseURL, accessToken, criarInscricoesTwoStepsId);
+                requestOptions = await criarInscricoesTwoSteps(this, i, baseURL, access_token, criarInscricoesTwoStepsId);
                 break;
 
             case 'definirFormaPagamento':
                 const definirFormaPagamentoId = this.getNodeParameter('subscriptionId', i) as string;
-                requestOptions = await definirFormaPagamento(this, i, baseURL, accessToken, definirFormaPagamentoId);
+                requestOptions = await definirFormaPagamento(this, i, baseURL, access_token, definirFormaPagamentoId);
                 break;
 
             case 'retentativaCartao':
                 const retentativaId = this.getNodeParameter('chargeId', i) as string;
-                requestOptions = await retentativaCartao(baseURL, accessToken, retentativaId);
+                requestOptions = await retentativaCartao(baseURL, access_token, retentativaId);
                 break;
 
             case 'retornarAssinaturaVinculada':
                 const retornarAssinaturaVinculadaId = this.getNodeParameter('subscriptionId', i) as string;
-                requestOptions = await retornarAssinaturaVinculada(baseURL, accessToken, retornarAssinaturaVinculadaId);
+                requestOptions = await retornarAssinaturaVinculada(baseURL, access_token, retornarAssinaturaVinculadaId);
                 break;
 
             case 'retornarListaCobrancas':
                 const begin_date = this.getNodeParameter('begin_date', i) as string;
                 const end_date = this.getNodeParameter('end_date', i) as string;
-                requestOptions = await retornarListaCobrancas(baseURL, accessToken, begin_date, end_date);
+                requestOptions = await retornarListaCobrancas(baseURL, access_token, begin_date, end_date);
                 break;
 
             case 'associarPlanoLink':
                 const associarLinkId = this.getNodeParameter('planId', i) as string;
-                requestOptions = await associarPlanoLink(this, i, baseURL, accessToken, associarLinkId);
+                requestOptions = await associarPlanoLink(this, i, baseURL, access_token, associarLinkId);
                 break;
 
             case 'incluirMetadataAssinatura':
                 const incluirMetadataAssinaturaId = this.getNodeParameter('subscriptionId', i) as string;
-                requestOptions = await incluirMetadataAssinatura(this, i, baseURL, accessToken, incluirMetadataAssinaturaId);
+                requestOptions = await incluirMetadataAssinatura(this, i, baseURL, access_token, incluirMetadataAssinaturaId);
                 break;
 
             case 'alterarDadosAssinatura':
                 const alterarDadosAssinaturaId = this.getNodeParameter('subscriptionId', i) as string;
-                requestOptions = await alterarDadosAssinatura(this, i, baseURL, accessToken, alterarDadosAssinaturaId);
+                requestOptions = await alterarDadosAssinatura(this, i, baseURL, access_token, alterarDadosAssinaturaId);
                 break;
 
             case 'cancelarAssinatura':
                 const cancelarAssinaturaId = this.getNodeParameter('subscriptionId', i) as string;
-                requestOptions = await cancelarAssinatura(baseURL, accessToken, cancelarAssinaturaId);
+                requestOptions = await cancelarAssinatura(baseURL, access_token, cancelarAssinaturaId);
                 break;
 
             case 'historicoAssinatura':
                 const historicoAssinaturaId = this.getNodeParameter('subscriptionId', i) as string;
-                requestOptions = await historicoAssinatura(this, i, baseURL, accessToken, historicoAssinaturaId);
+                requestOptions = await historicoAssinatura(this, i, baseURL, access_token, historicoAssinaturaId);
                 break;
 
             case 'reenvioEmailAssinatura':
                 const emailClienteReenvio = this.getNodeParameter('chargeId', i) as string;
                 const email = this.getNodeParameter('email', i) as string;
-                requestOptions = await reenvioEmailAssinatura(baseURL, accessToken, emailClienteReenvio, email);
+                requestOptions = await reenvioEmailAssinatura(baseURL, access_token, emailClienteReenvio, email);
                 break;
 
             default:

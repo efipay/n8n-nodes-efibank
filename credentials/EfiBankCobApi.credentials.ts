@@ -58,7 +58,7 @@ export class EfiBankCobApi implements ICredentialType {
     credentials: ICredentialDataDecryptedObject,
     requestOptions: IHttpRequestOptions,
 	): Promise<IHttpRequestOptions> {
-		const isProd = credentials.environment === 'prod';
+	const isProd = credentials.environment === 'prod';
 
     const clientId = isProd ? credentials.clientIdProd : credentials.clientIdHomolog;
     const clientSecret = isProd ? credentials.clientSecretProd : credentials.clientSecretHomolog;
@@ -70,7 +70,7 @@ export class EfiBankCobApi implements ICredentialType {
 
     requestOptions.headers.Authorization = `Basic ${encodedApiKey}`;
     requestOptions.headers['Content-Type'] = 'application/json';
-		(requestOptions.body as Record<string, any>)['grant_type'] = 'client_credentials';
+	(requestOptions.body as Record<string, any>)['grant_type'] = 'client_credentials';
 
     return requestOptions;
 	}

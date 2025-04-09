@@ -1,8 +1,9 @@
 import { IHttpRequestOptions} from 'n8n-workflow';
+import { version } from '../../../../package.json';
 
 export async function reenvioCarne(
 	baseURL: string,
-  accessToken: string,
+  access_token: string,
   carneId: string,
   email: string
 ): Promise<IHttpRequestOptions> {
@@ -11,7 +12,10 @@ export async function reenvioCarne(
     method: 'POST',
     url: `${baseURL}/v1/carnet/${carneId}/resend`,
     json: true,
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { 
+      Authorization: `Bearer ${access_token}`,
+      'api-sdk': `efi-n8n-${version}`
+    },
     body: {
       email: email,
     },

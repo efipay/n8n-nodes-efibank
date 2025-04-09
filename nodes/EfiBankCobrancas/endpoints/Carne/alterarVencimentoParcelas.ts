@@ -1,8 +1,9 @@
 import { IHttpRequestOptions } from 'n8n-workflow';
+import { version } from '../../../../package.json';
 
 export async function alterarVencimentoParcelas(
 	baseURL: string,
-  accessToken: string,
+  access_token: string,
   carneId: string,
   parcelas: any
 ): Promise<IHttpRequestOptions> {
@@ -11,7 +12,10 @@ export async function alterarVencimentoParcelas(
     method: 'PUT',
     url: `${baseURL}/v1/carnet/${carneId}/parcels`,
     json: true,
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { 
+      Authorization: `Bearer ${access_token}`,
+      'api-sdk': `efi-n8n-${version}`
+    },
     body: JSON.parse(parcelas)
   };
 }

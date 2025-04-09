@@ -1,4 +1,4 @@
-import { IExecuteFunctions, IHttpRequestOptions } from 'n8n-workflow';
+import { IHttpRequestOptions, IExecuteFunctions } from 'n8n-workflow';
 import { detailReport } from '../endpoints/exclusives/report/detailReport';
 import { createReport } from '../endpoints/exclusives/report/createReport';
 import { medList } from '../endpoints/exclusives/med/medList';

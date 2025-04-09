@@ -1,4 +1,5 @@
-import { IExecuteFunctions, IHttpRequestOptions } from 'n8n-workflow';
+import { IHttpRequestOptions, IExecuteFunctions } from 'n8n-workflow';
+import { version } from '../../../../package.json';
 
 export async function associarPlanoLink(
   context: IExecuteFunctions,
@@ -13,8 +14,9 @@ export async function associarPlanoLink(
     method: 'POST',
     url: `${baseURL}/v1/plan/${planId}/subscription/one-step/link`,
     json: true,
-    headers: {
+     headers: { 
       Authorization: `Bearer ${access_token}`,
+      'api-sdk': `efi-n8n-${version}`
     },
     body: JSON.parse(requestBody),
   };

@@ -17,13 +17,16 @@ export async function pixCreateImmediateCharge(
     const resposta = await efipay.pixCreateImmediateCharge({}, body);
     return resposta;
   } catch (error: any) {
-    console.error("Erro completo:", error);
 
     let mensagemErro = error.message || error.mensagem || error.detail || "Ocorreu um erro desconhecido";
     
     if (typeof error === 'string') {
       mensagemErro = error;
-    } else if (error.response && error.response.data) {
+    } 
+    else if (error.error && error.error_description) {
+      mensagemErro = `${error.error}: ${error.error_description}`;
+    }
+    else if (error.response && error.response.data) {
       if (typeof error.response.data === 'string') {
         try {
           const parsedData = JSON.parse(error.response.data);

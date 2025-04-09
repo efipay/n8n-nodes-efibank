@@ -1,4 +1,4 @@
-import { IExecuteFunctions, IHttpRequestOptions } from 'n8n-workflow';
+import { IHttpRequestOptions, IExecuteFunctions } from 'n8n-workflow';
 import { criarCarne } from '../endpoints/Carne/criarCarne';
 import { retornarCarne } from '../endpoints/Carne/retornarCarne';
 import { retornarListaCarnes } from '../endpoints/Carne/retornarListaCarnes';
@@ -18,14 +18,14 @@ export async function carneService(
   endpoint: string,
   i: number,
 	baseURL: string,
-  accessToken: string
+  access_token: string
 ): Promise<IHttpRequestOptions> {
   let requestOptions: IHttpRequestOptions;
 
   try {
     switch (endpoint) {
       case 'criarCarne':
-        requestOptions = await criarCarne(this, i, baseURL, accessToken);
+        requestOptions = await criarCarne(this, i, baseURL, access_token);
         break;
 
       case 'retornarCarne':
@@ -33,7 +33,7 @@ export async function carneService(
         if (!chargeIdCarne || typeof chargeIdCarne !== 'string') {
           throw new Error('Charge ID é obrigatório e deve ser uma string para retornar o carnê');
         }
-        requestOptions = await retornarCarne(baseURL, accessToken, chargeIdCarne);
+        requestOptions = await retornarCarne(baseURL, access_token, chargeIdCarne);
         break;
 
       case 'retornarListaCarnes':
@@ -44,7 +44,7 @@ export async function carneService(
             throw new Error('As datas de início e fim são obrigatórias');
         }
 
-        requestOptions = await retornarListaCarnes(baseURL, accessToken, begin_date, end_date);
+        requestOptions = await retornarListaCarnes(baseURL, access_token, begin_date, end_date);
         break;
 
 
@@ -53,7 +53,7 @@ export async function carneService(
         if (!carneIdMetadata || typeof carneIdMetadata !== 'string') {
           throw new Error('ID do Carnê é obrigatório e deve ser uma string');
         }
-        requestOptions = await incluirMetadataCarne(this, i, baseURL, accessToken, carneIdMetadata);
+        requestOptions = await incluirMetadataCarne(this, i, baseURL, access_token, carneIdMetadata);
         break;
 
       case 'alterarVencimentoParcela':
@@ -66,7 +66,7 @@ export async function carneService(
         if (!novoVencimento || typeof novoVencimento !== 'string') {
           throw new Error('O novo vencimento ("expire_at") deve ser uma string');
         }
-        requestOptions = await alterarVencimentoParcela(baseURL, accessToken, carneIdAlteracao, parcela, novoVencimento);
+        requestOptions = await alterarVencimentoParcela(baseURL, access_token, carneIdAlteracao, parcela, novoVencimento);
         break;
 
       case 'alterarVencimentoParcelas':
@@ -75,7 +75,7 @@ export async function carneService(
         if (!parcelas) {
           throw new Error('O parâmetro "parcels" deve ser um array');
         }
-        requestOptions = await alterarVencimentoParcelas(baseURL, accessToken, carneIdAlteracaoParcelas, parcelas);
+        requestOptions = await alterarVencimentoParcelas(baseURL, access_token, carneIdAlteracaoParcelas, parcelas);
         break;
 
       case 'cancelarCarne':
@@ -83,7 +83,7 @@ export async function carneService(
         if (!carneIdCancelar || typeof carneIdCancelar !== 'string') {
           throw new Error('ID do Carnê é obrigatório e deve ser uma string');
         }
-        requestOptions = await cancelarCarne(baseURL, accessToken, carneIdCancelar);
+        requestOptions = await cancelarCarne(baseURL, access_token, carneIdCancelar);
         break;
 
       case 'cancelarParcelaCarne':
@@ -92,7 +92,7 @@ export async function carneService(
         if (!parcelaCancela || typeof parcelaCancela !== 'string') {
           throw new Error('O parâmetro "parcela" deve ser uma string');
         }
-        requestOptions = await cancelarParcelaCarne(baseURL, accessToken, carneIdCancelarParcela, parcelaCancela);
+        requestOptions = await cancelarParcelaCarne(baseURL, access_token, carneIdCancelarParcela, parcelaCancela);
         break;
 
       case 'reenvioCarne':
@@ -104,7 +104,7 @@ export async function carneService(
         if (!emailReenvio || typeof emailReenvio !== 'string') {
           throw new Error('O parâmetro "email" deve ser uma string');
         }
-        requestOptions = await reenvioCarne(baseURL, accessToken, carneIdReenvio, emailReenvio);
+        requestOptions = await reenvioCarne(baseURL, access_token, carneIdReenvio, emailReenvio);
         break;
 
       case 'reenvioParcelaCarne':
@@ -117,12 +117,12 @@ export async function carneService(
         if (!emailReenvioParcela || typeof emailReenvioParcela !== 'string') {
           throw new Error('O parâmetro "email" deve ser uma string');
         }
-        requestOptions = await reenvioParcelaCarne(baseURL, accessToken, carneIdReenvioParcela, parcelaReenvio, emailReenvioParcela);
+        requestOptions = await reenvioParcelaCarne(baseURL, access_token, carneIdReenvioParcela, parcelaReenvio, emailReenvioParcela);
         break;
 
 			case 'acrescentarHistoricoCarne':
 					const carneIdHistorico = this.getNodeParameter('carnet_id', i) as string;
-					requestOptions = await acrescentarHistoricoCarne(this, i, baseURL, accessToken, carneIdHistorico);
+					requestOptions = await acrescentarHistoricoCarne(this, i, baseURL, access_token, carneIdHistorico);
 					break;
 
       case 'marcarComoPagoCarne':
@@ -130,7 +130,7 @@ export async function carneService(
         if (!carneIdPagar || typeof carneIdPagar !== 'string') {
           throw new Error('ID do Carnê é obrigatório e deve ser uma string');
         }
-        requestOptions = await marcarComoPagoCarne(baseURL, accessToken, carneIdPagar);
+        requestOptions = await marcarComoPagoCarne(baseURL, access_token, carneIdPagar);
         break;
 
       case 'marcarComoPagoParcelaCarne':
@@ -139,7 +139,7 @@ export async function carneService(
         if (!parcelaPagar || typeof parcelaPagar !== 'string') {
           throw new Error('O parâmetro "parcela" deve ser uma string');
         }
-        requestOptions = await marcarComoPagoParcelaCarne(baseURL, accessToken, carneIdPagarParcela, parcelaPagar);
+        requestOptions = await marcarComoPagoParcelaCarne(baseURL, access_token, carneIdPagarParcela, parcelaPagar);
         break;
 
       default:

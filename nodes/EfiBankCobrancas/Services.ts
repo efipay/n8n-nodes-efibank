@@ -1,4 +1,4 @@
-import { IExecuteFunctions, IHttpRequestOptions } from 'n8n-workflow';
+import { IHttpRequestOptions, IExecuteFunctions } from 'n8n-workflow';
 import { boletoService } from './services/boletoService';
 import { cartaoService } from './services/cartaoService';
 import { carneService } from './services/carneService';
@@ -22,7 +22,7 @@ export async function execute(
 		? 'https://cobrancas-h.api.efipay.com.br' // Homologação
 		: 'https://cobrancas.api.efipay.com.br';  // Produção
 
-  const accessToken = await auth({ clientId: String(clientId), clientSecret: String(clientSecret) }, baseURL, this.helpers.httpRequest);
+  const access_token = await auth({ clientId: String(clientId), clientSecret: String(clientSecret) }, baseURL, this.helpers.httpRequest);
 
 	const transactionType = this.getNodeParameter('transactionType', i) as string;
 
@@ -31,25 +31,25 @@ export async function execute(
 
 		switch (transactionType) {
       case 'boleto':
-        requestOptions = await boletoService.call(this, endpoint, i, baseURL, accessToken);
+        requestOptions = await boletoService.call(this, endpoint, i, baseURL, access_token);
         break;
 			case 'cartao':
-					requestOptions = await cartaoService.call(this, endpoint, i, baseURL, accessToken);
+					requestOptions = await cartaoService.call(this, endpoint, i, baseURL, access_token);
 					break;
       case 'carne':
-        requestOptions = await carneService.call(this, endpoint, i, baseURL, accessToken);
+        requestOptions = await carneService.call(this, endpoint, i, baseURL, access_token);
         break;
 			case 'assinatura':
-				requestOptions = await assinaturaService.call(this, endpoint, i, baseURL, accessToken);
+				requestOptions = await assinaturaService.call(this, endpoint, i, baseURL, access_token);
 				break;
 			case 'link':
-				requestOptions = await linkService.call(this, endpoint, i, baseURL, accessToken);
+				requestOptions = await linkService.call(this, endpoint, i, baseURL, access_token);
 				break;
 			case 'split':
-				requestOptions = await splitService.call(this, endpoint, i, baseURL, accessToken);
+				requestOptions = await splitService.call(this, endpoint, i, baseURL, access_token);
 				break;
 			case 'notificacao':
-				requestOptions = await notificacaoService.call(this, endpoint, i, baseURL, accessToken);
+				requestOptions = await notificacaoService.call(this, endpoint, i, baseURL, access_token);
 				break;
       default:
       throw new Error(`Erro: '${transactionType}' não é um tipo de transação válida.`);

@@ -1,8 +1,9 @@
 import { IHttpRequestOptions } from 'n8n-workflow';
+import { version } from '../../../../package.json';
 
 export async function retornarListaBoleto(
 	baseURL: string,
-  accessToken: string,
+  access_token: string,
   begin_date: string,
   end_date: string
 ): Promise<IHttpRequestOptions> {
@@ -13,7 +14,10 @@ export async function retornarListaBoleto(
     method: 'GET',
     url,
     json: true,
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { 
+      Authorization: `Bearer ${access_token}`,
+      'api-sdk': `efi-n8n-${version}`
+    },
   };
 }
 

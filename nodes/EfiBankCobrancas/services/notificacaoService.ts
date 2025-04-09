@@ -1,4 +1,4 @@
-import { IExecuteFunctions, IHttpRequestOptions } from 'n8n-workflow';
+import { IHttpRequestOptions, IExecuteFunctions } from 'n8n-workflow';
 import { consultarNotificacao } from '../endpoints/Notificacoes/consultarNotificacao';
 
 export async function notificacaoService(
@@ -6,7 +6,7 @@ export async function notificacaoService(
   endpoint: string,
   i: number,
 	baseURL: string,
-  accessToken: string
+  access_token: string
 ): Promise<IHttpRequestOptions> {
   let requestOptions: IHttpRequestOptions;
 
@@ -16,7 +16,7 @@ export async function notificacaoService(
 					 if (!token || typeof token !== 'string') {
 						 throw new Error('O parâmetro "token" deve ser uma string');
 					 }
-					 requestOptions = await consultarNotificacao(baseURL, accessToken, token);
+					 requestOptions = await consultarNotificacao(baseURL, access_token, token);
 					 break;
 
 			default:

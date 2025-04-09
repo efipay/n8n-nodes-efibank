@@ -1,8 +1,9 @@
 import { IHttpRequestOptions } from 'n8n-workflow';
+import { version } from '../../../../package.json';
 
 export async function listarParcelas(
 	baseURL: string,
-  accessToken: string,
+  access_token: string,
 	identificador: string,
   total: number,
   bandeira: string
@@ -13,7 +14,8 @@ export async function listarParcelas(
     method: 'GET',
     url,
     json: true,
-    headers: { Authorization: `Bearer ${accessToken}`,
+    headers: { Authorization: `Bearer ${access_token}`,
+    'api-sdk': `efi-n8n-${version}`,
 		'Account-Code': identificador,}
   };
 }

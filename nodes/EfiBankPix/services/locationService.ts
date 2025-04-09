@@ -1,4 +1,4 @@
-import { IExecuteFunctions, IHttpRequestOptions } from 'n8n-workflow';
+import { IHttpRequestOptions, IExecuteFunctions } from 'n8n-workflow';
 import { pixCreateLocation } from '../endpoints/location/pixCreateLocation'; 
 import { pixLocationList } from '../endpoints/location/pixLocationList';
 import { pixDetailLocation } from '../endpoints/location/pixDetailLocation';

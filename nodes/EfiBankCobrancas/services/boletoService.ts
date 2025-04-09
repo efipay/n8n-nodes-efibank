@@ -1,4 +1,4 @@
-import { IExecuteFunctions, IHttpRequestOptions } from 'n8n-workflow';
+import { IHttpRequestOptions, IExecuteFunctions } from 'n8n-workflow';
 import { criarBoletoOneStep } from '../endpoints/Boleto/criarBoletoOneStep';
 import { criarTransacaoBoleto } from '../endpoints/Boleto/criarTransacaoBoleto';
 import { associarFormaPagamentoBoleto } from '../endpoints/Boleto/associarFormaPagamentoBoleto';
@@ -18,22 +18,22 @@ export async function boletoService(
   endpoint: string,
   i: number,
 	baseURL: string,
-  accessToken: string
+  access_token: string
 ): Promise<IHttpRequestOptions> {
   let requestOptions: IHttpRequestOptions;
 
   switch (endpoint) {
     case 'criarBoletoOneStep':
-      requestOptions = await criarBoletoOneStep(this, i, baseURL, accessToken);
+      requestOptions = await criarBoletoOneStep(this, i, baseURL, access_token);
       break;
 
     case 'criarTransacaoBoleto':
-      requestOptions = await criarTransacaoBoleto(this, i, baseURL, accessToken);
+      requestOptions = await criarTransacaoBoleto(this, i, baseURL, access_token);
       break;
 
     case 'associarFormaPagamentoBoleto':
 			const boletoIdAssociar = this.getNodeParameter('charge_id', i) as string;
-      requestOptions = await associarFormaPagamentoBoleto(this, i, baseURL, accessToken, boletoIdAssociar);
+      requestOptions = await associarFormaPagamentoBoleto(this, i, baseURL, access_token, boletoIdAssociar);
       break;
 
 		case 'retornarCobrancaBoleto':
@@ -41,7 +41,7 @@ export async function boletoService(
 			if (!boletoIdRetornar || typeof boletoIdRetornar !== 'string') {
 				throw new Error('Charge ID é obrigatório e deve ser uma string para retornar o carnê');
 			}
-			requestOptions = await retornarCobrancaBoleto(baseURL, accessToken, boletoIdRetornar);
+			requestOptions = await retornarCobrancaBoleto(baseURL, access_token, boletoIdRetornar);
 			break;
 
 		case 'retornarListaBoleto':
@@ -52,44 +52,44 @@ export async function boletoService(
 				throw new Error('As datas de início e fim são obrigatórias');
 			}
 
-			requestOptions = await retornarListaBoleto(baseURL, accessToken, begin_date, end_date);
+			requestOptions = await retornarListaBoleto(baseURL, access_token, begin_date, end_date);
 			break;
 
     case 'incluirMetadataBoleto':
       const boletoIdMetadata = this.getNodeParameter('charge_id', i) as string;
-      requestOptions = await incluirMetadataBoleto(this, i, baseURL, accessToken, boletoIdMetadata);
+      requestOptions = await incluirMetadataBoleto(this, i, baseURL, access_token, boletoIdMetadata);
       break;
 
     case 'alterarVencimento':
       const boletoIdVencimento = this.getNodeParameter('charge_id', i) as string;
       const expire_at = this.getNodeParameter('expire_at', i) as string;
-      requestOptions = await alterarVencimento(baseURL, accessToken, boletoIdVencimento, expire_at);
+      requestOptions = await alterarVencimento(baseURL, access_token, boletoIdVencimento, expire_at);
       break;
 
     case 'cancelarTransacaoBoleto':
       const boletoIdCancelar = this.getNodeParameter('charge_id', i) as string;
-      requestOptions = await cancelarTransacaoBoleto(baseURL, accessToken, boletoIdCancelar);
+      requestOptions = await cancelarTransacaoBoleto(baseURL, access_token, boletoIdCancelar);
       break;
 
     case 'reenviarEmailBoleto':
 			const boletoIdReenvio = this.getNodeParameter('charge_id', i) as string;
       const emailReenvio = this.getNodeParameter('email', i) as string;
-      requestOptions = await reenviarEmailBoleto(baseURL, accessToken, boletoIdReenvio, emailReenvio);
+      requestOptions = await reenviarEmailBoleto(baseURL, access_token, boletoIdReenvio, emailReenvio);
       break;
 
     case 'acrescentarHistoricoBoleto':
       const boletoIdHistorico = this.getNodeParameter('charge_id', i) as string;
-      requestOptions = await acrescentarHistoricoBoleto(this, i, baseURL, accessToken, boletoIdHistorico);
+      requestOptions = await acrescentarHistoricoBoleto(this, i, baseURL, access_token, boletoIdHistorico);
       break;
 
 		case 'definirBalancete':
 			const chargeIdBalancete = this.getNodeParameter('charge_id', i) as string;
-			requestOptions = await definirBalancete(this, i, baseURL, accessToken, chargeIdBalancete);
+			requestOptions = await definirBalancete(this, i, baseURL, access_token, chargeIdBalancete);
 			break;
 
 		case 'marcarComoPago':
 			const boletoIdPagar = this.getNodeParameter('charge_id', i) as string;
-			requestOptions = await marcarComoPago(baseURL, accessToken, boletoIdPagar);
+			requestOptions = await marcarComoPago(baseURL, access_token, boletoIdPagar);
 			break;
 
 			default:

@@ -1,4 +1,4 @@
-import { IExecuteFunctions, IHttpRequestOptions } from 'n8n-workflow';
+import { IHttpRequestOptions, IExecuteFunctions } from 'n8n-workflow';
 import { pixDetailReceived } from '../endpoints/management/pixDetailReceived';
 import { pixReceivedList } from '../endpoints/management/pixReceivedList';
 import { pixDevolution } from '../endpoints/management/pixDevolution';

@@ -13,14 +13,20 @@ export async function pixDeleteEvp(
 
     const chavePix = context.getNodeParameter('chavePix', index) as string;
     
-    const resposta = await efipay.pixDeleteEvp({ chave: chavePix });
-    return resposta;
+    await efipay.pixDeleteEvp({ chave: chavePix });
+    return ['code: 200'];
+
   } catch (error: any) {
+
     let mensagemErro = error.message || error.mensagem || error.detail || "Ocorreu um erro desconhecido";
     
     if (typeof error === 'string') {
       mensagemErro = error;
-    } else if (error.response && error.response.data) {
+    } 
+    else if (error.error && error.error_description) {
+      mensagemErro = `${error.error}: ${error.error_description}`;
+    }
+    else if (error.response && error.response.data) {
       if (typeof error.response.data === 'string') {
         try {
           const parsedData = JSON.parse(error.response.data);

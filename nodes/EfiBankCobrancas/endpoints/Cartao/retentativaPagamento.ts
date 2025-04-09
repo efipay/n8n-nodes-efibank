@@ -1,4 +1,5 @@
 import { IHttpRequestOptions, IExecuteFunctions } from 'n8n-workflow';
+import { version } from '../../../../package.json';
 
 export async function retentativaPagamento(
   context: IExecuteFunctions,
@@ -13,7 +14,10 @@ export async function retentativaPagamento(
     method: 'POST',
     url: `${baseURL}/v1/charge/${chargeId}/retry`,
     json: true,
-    headers: { Authorization: `Bearer ${access_token}` },
+    headers: { 
+      Authorization: `Bearer ${access_token}`,
+      'api-sdk': `efi-n8n-${version}`
+    },
     body: JSON.parse(requestBody),
   };
 }

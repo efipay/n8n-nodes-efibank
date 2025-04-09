@@ -1,4 +1,4 @@
-import { IExecuteFunctions, IHttpRequestOptions } from 'n8n-workflow';
+import { IHttpRequestOptions, IExecuteFunctions } from 'n8n-workflow';
 import { pixConfigWebhook } from '../endpoints/webhooks/pixConfigWebhook';
 import { pixDeleteWebhook } from '../endpoints/webhooks/pixDeleteWebhook';
 import { pixDetailWebhook } from '../endpoints/webhooks/pixDetailWebhook';

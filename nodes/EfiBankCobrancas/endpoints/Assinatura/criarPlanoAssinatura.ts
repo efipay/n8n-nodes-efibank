@@ -1,4 +1,5 @@
 import { IHttpRequestOptions, IExecuteFunctions } from 'n8n-workflow';
+import { version } from '../../../../package.json';
 
 export async function criarPlanoAssinatura(
   context: IExecuteFunctions,
@@ -12,8 +13,9 @@ export async function criarPlanoAssinatura(
     method: 'POST',
     url: `${baseURL}/v1/plan`,
     json: true,
-    headers: {
+     headers: { 
       Authorization: `Bearer ${access_token}`,
+      'api-sdk': `efi-n8n-${version}`
     },
     body: JSON.parse(requestBody),
   };

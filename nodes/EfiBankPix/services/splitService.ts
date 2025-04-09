@@ -1,4 +1,4 @@
-import { IExecuteFunctions, IHttpRequestOptions } from 'n8n-workflow';
+import { IHttpRequestOptions, IExecuteFunctions } from 'n8n-workflow';
 import { pixSplitConfig } from '../endpoints/split/config/pixSplitConfig';
 import { pixSplitConfigId } from '../endpoints/split/config/pixSplitConfigId';
 import { pixSplitDetailConfig } from '../endpoints/split/config/pixSplitDetailConfig';

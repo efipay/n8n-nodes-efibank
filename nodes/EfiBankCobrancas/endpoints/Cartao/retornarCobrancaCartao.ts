@@ -1,4 +1,5 @@
 import { IHttpRequestOptions} from 'n8n-workflow';
+import { version } from '../../../../package.json';
 
 export async function retornarCobrancaCartao(
 	baseURL: string,
@@ -10,8 +11,9 @@ export async function retornarCobrancaCartao(
     method: 'GET',
     url: `${baseURL}/v1/charge/${chargeId}`,
     json: true,
-    headers: {
+     headers: { 
       Authorization: `Bearer ${access_token}`,
+      'api-sdk': `efi-n8n-${version}`
     },
   };
 }
