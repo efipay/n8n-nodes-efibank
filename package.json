@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-efibank",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Nó personalizado para integração com as APIs Cobranças e Pix do Efibank, permitindo operações de pagamentos, recebimentos e gerenciamento de transações financeiras.",
   "keywords": [
     "n8n-community-node-package", "n8n", "efibank", "pagamentos", "pix", "cobranças"
@@ -26,8 +26,8 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/EfiBankCobApi.credentials.credentials.js",
-      "dist/credentials/EfiBankPixApi.credentials.credentials.js"
+      "dist/credentials/EfiBankCobApi.credentials.js",
+      "dist/credentials/EfiBankPixApi.credentials.js"
     ],
     "nodes": [
       "dist/nodes/EfiBankCobrancas/EfiBankCobrancas.node.js",
