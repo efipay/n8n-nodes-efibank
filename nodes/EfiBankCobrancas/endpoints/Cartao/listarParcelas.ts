@@ -16,7 +16,8 @@ export async function listarParcelas(
     json: true,
     headers: { Authorization: `Bearer ${access_token}`,
     'api-sdk': `efi-n8n-${version}`,
-		'Account-Code': identificador,}
+		'Account-Code': identificador,
+    'partner-token': `764bb2d04524255844c24b0f46c381e87e2a7800`}
   };
 }
 

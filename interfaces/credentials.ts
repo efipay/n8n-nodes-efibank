@@ -7,7 +7,7 @@ async function getEfiBankConfig(this: IExecuteFunctions): Promise<EfiCredentials
 
   const isProd = credentials.environment === "prod";
 
-    const sandbox = !isProd;
+  const sandbox = !isProd;
 
   const efiApi = new EfiBankPixApi();
 
@@ -19,6 +19,7 @@ async function getEfiBankConfig(this: IExecuteFunctions): Promise<EfiCredentials
     client_secret: String(isProd ? credentials.clientSecretProd : credentials.clientSecretHomolog),
     certificate: certificate_base64,
     cert_base64: true,
+    partner_token: "764bb2d04524255844c24b0f46c381e87e2a7800"
   };
 
   return efiCredentials;
