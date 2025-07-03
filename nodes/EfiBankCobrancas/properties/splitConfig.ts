@@ -6,13 +6,14 @@ export const splitConfig: INodeProperties[] = [
     displayName: 'charge_id',
     name: 'charge_id',
     type: 'string',
+    required: true,
     default: '',
     description: 'Insira o id da cobrança',
     displayOptions: {
       show: {
         endpoints: [
-					'associarFormaPagamentoSplitBoleto',
-					'associarFormaPagamentoSplitCartao'
+					'defineSplitBilletPayMethod',
+					'defineSplitCardPayMethod'
 				],
       },
     },
@@ -72,7 +73,7 @@ export const splitConfig: INodeProperties[] = [
     description: 'Insira o body da requisição para criar uma transação Split de pagamento em One Step do tipo boleto',
     displayOptions: {
       show: {
-        endpoints: ['criarSplitOneStepBoleto'],
+        endpoints: ['createOneStepSplitBillet'],
       },
     },
   },
@@ -118,7 +119,7 @@ export const splitConfig: INodeProperties[] = [
     description: 'Insira o body da requisição para criar uma transação Split de pagamento em One Step do tipo cartão',
     displayOptions: {
       show: {
-        endpoints: ['criarSplitOneStepCartao'],
+        endpoints: ['createOneStepSplitCard'],
       },
     },
   },
@@ -151,7 +152,7 @@ export const splitConfig: INodeProperties[] = [
 		description: 'Insira o body da requisição para criar uma transação',
 		displayOptions: {
 			show: {
-				endpoints: ['criarTransacaoSplit'],
+				endpoints: ['createSplitCharge'],
 			},
 		},
 	},
@@ -176,7 +177,7 @@ export const splitConfig: INodeProperties[] = [
 		description: 'Insira o body da requisição para associar a forma de pagamento',
 		displayOptions: {
 			show: {
-				endpoints: ['associarFormaPagamentoSplitBoleto'],
+				endpoints: ['defineSplitBilletPayMethod'],
 			},
 		},
 	},
@@ -203,7 +204,7 @@ export const splitConfig: INodeProperties[] = [
 		description: 'Insira o body da requisição para associar a forma de pagamento',
 		displayOptions: {
 			show: {
-				endpoints: ['associarFormaPagamentoSplitCartao'],
+				endpoints: ['defineSplitCardPayMethod'],
 			},
 		},
 	},

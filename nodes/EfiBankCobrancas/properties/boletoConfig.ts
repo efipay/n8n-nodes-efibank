@@ -6,20 +6,21 @@ export const boletoConfig: INodeProperties[] = [
     displayName: 'charge_id',
     name: 'charge_id',
     type: 'string',
+    required: true,
     default: '',
     description: 'Insira o id da cobrança',
     displayOptions: {
       show: {
         endpoints: [
-					'associarFormaPagamentoBoleto',
-					'retornarCobrancaBoleto',
-					'incluirMetadataBoleto',
-					'alterarVencimento',
-					'cancelarTransacaoBoleto',
-					'reenviarEmailBoleto',
-					'acrescentarHistoricoBoleto',
-					'definirBalancete',
-					'marcarComoPago'
+					'defineBilletPayMethod',
+					'detailBillet',
+					'updateBilletMetadata',
+					'updateBillet',
+					'cancelBillet',
+					'sendBilletEmail',
+					'createBilletHistory',
+					'defineBalanceSheetBillet',
+					'settleBillet',
 				],
       },
     },
@@ -67,7 +68,7 @@ export const boletoConfig: INodeProperties[] = [
     description: 'Insira o body da requisição para criar um boleto do tipo One Step',
     displayOptions: {
       show: {
-        endpoints: ['criarBoletoOneStep'],
+        endpoints: ['createOneStepCharge'],
       },
     },
   },
@@ -87,7 +88,7 @@ export const boletoConfig: INodeProperties[] = [
 		description: 'Insira o body da requisição para criar uma transação',
 		displayOptions: {
 			show: {
-				endpoints: ['criarTransacaoBoleto'],
+				endpoints: ['createCharge'],
 			},
 		},
 	},
@@ -112,7 +113,7 @@ export const boletoConfig: INodeProperties[] = [
 		description: 'Insira o body da requisição para associar a forma de pagamento',
 		displayOptions: {
 			show: {
-				endpoints: ['associarFormaPagamentoBoleto'],
+				endpoints: ['defineBilletPayMethod'],
 			},
 		},
 	},
@@ -127,7 +128,7 @@ export const boletoConfig: INodeProperties[] = [
 			description: 'Data início para o filtro da consulta',
 			displayOptions: {
 				show: {
-					endpoints: ['retornarListaBoleto'],
+					endpoints: ['listBillets'],
 				},
 			},
 		},
@@ -141,7 +142,7 @@ export const boletoConfig: INodeProperties[] = [
 			description: 'Data fim para o filtro da consulta',
 			displayOptions: {
 				show: {
-					endpoints: ['retornarListaBoleto'],
+					endpoints: ['listBillets'],
 				},
 			},
 		},
@@ -155,7 +156,7 @@ export const boletoConfig: INodeProperties[] = [
 		// 	description: 'Define por qual valor o filtro de data será aplicado',
 		// 	displayOptions: {
 		// 		show: {
-		// 			endpoints: ['retornarListaBoleto'],
+		// 			endpoints: ['listBillets'],
 		// 		},
 		// 	},
 		// },
@@ -169,7 +170,7 @@ export const boletoConfig: INodeProperties[] = [
 		// 	description: 'Status das cobranças',
 		// 	displayOptions: {
 		// 		show: {
-		// 			endpoints: ['retornarListaBoleto'],
+		// 			endpoints: ['listBillets'],
 		// 		},
 		// 	},
 		// },
@@ -183,7 +184,7 @@ export const boletoConfig: INodeProperties[] = [
 		// 	description: 'Documento do pagador',
 		// 	displayOptions: {
 		// 		show: {
-		// 			endpoints: ['retornarListaBoleto'],
+		// 			endpoints: ['listBillets'],
 		// 		},
 		// 	},
 		// },
@@ -197,7 +198,7 @@ export const boletoConfig: INodeProperties[] = [
 		// 	description: 'ID específico de seu sistema ou aplicação',
 		// 	displayOptions: {
 		// 		show: {
-		// 			endpoints: ['retornarListaBoleto'],
+		// 			endpoints: ['listBillets'],
 		// 		},
 		// 	},
 		// },
@@ -211,7 +212,7 @@ export const boletoConfig: INodeProperties[] = [
 		// 	description: 'valor da cobrança',
 		// 	displayOptions: {
 		// 		show: {
-		// 			endpoints: ['retornarListaBoleto'],
+		// 			endpoints: ['listBillets'],
 		// 		},
 		// 	},
 		// },
@@ -225,7 +226,7 @@ export const boletoConfig: INodeProperties[] = [
 		// 	description: 'Quantidade de registros retornados pela consulta',
 		// 	displayOptions: {
 		// 		show: {
-		// 			endpoints: ['retornarListaBoleto'],
+		// 			endpoints: ['listBillets'],
 		// 		},
 		// 	},
 		// },
@@ -239,7 +240,7 @@ export const boletoConfig: INodeProperties[] = [
 		// 	description: 'Página a ser retornada pela consulta',
 		// 	displayOptions: {
 		// 		show: {
-		// 			endpoints: ['retornarListaBoleto'],
+		// 			endpoints: ['listBillets'],
 		// 		},
 		// 	},
 		// },
@@ -253,7 +254,7 @@ export const boletoConfig: INodeProperties[] = [
 		// 	description: 'Quantidade máxima de registros retornados em cada página',
 		// 	displayOptions: {
 		// 		show: {
-		// 			endpoints: ['retornarListaBoleto'],
+		// 			endpoints: ['listBillets'],
 		// 		},
 		// 	},
 		// },
@@ -270,14 +271,14 @@ export const boletoConfig: INodeProperties[] = [
     description: 'Insira o body da requisição para incluir o metadata',
     displayOptions: {
       show: {
-        endpoints: ['incluirMetadataBoleto'],
+        endpoints: ['updateBilletMetadata'],
       },
     },
   },
 
   // Alterar Vencimento
   {
-    displayName: 'Body da Requisição',
+    displayName: 'Data de vencimento',
     name: 'requestBodyAlterarVencimento',
     type: 'string',
     placeholder: '2025-10-16',
@@ -285,7 +286,7 @@ export const boletoConfig: INodeProperties[] = [
     description: 'Insira a nova data de vencimento do boleto',
     displayOptions: {
       show: {
-        endpoints: ['alterarVencimento'],
+        endpoints: ['updateBillet'],
       },
     },
   },
@@ -301,7 +302,7 @@ export const boletoConfig: INodeProperties[] = [
     description: 'E-mail para o qual o boleto será reenviado',
 		displayOptions: {
 			show: {
-				endpoints: ['reenviarEmailBoleto'],
+				endpoints: ['sendBilletEmail'],
 			},
 		},
 	},
@@ -312,11 +313,12 @@ export const boletoConfig: INodeProperties[] = [
     displayName: 'Descrição',
     name: 'requestBodyHistorico',
     type: 'string',
+    required: true,
     default: '',
     description: 'Insira a descrição para adicionar ao histórico',
     displayOptions: {
       show: {
-        endpoints: ['acrescentarHistoricoBoleto'],
+        endpoints: ['createBilletHistory'],
       },
     },
   },
@@ -1402,7 +1404,7 @@ export const boletoConfig: INodeProperties[] = [
 		description: 'Insira o body da requisição para definir o boleto balancete',
 		displayOptions: {
 			show: {
-				endpoints: ['definirBalancete'],
+				endpoints: ['defineBalanceSheetBillet'],
 			},
 		},
 	},

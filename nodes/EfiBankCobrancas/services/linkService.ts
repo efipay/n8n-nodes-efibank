@@ -1,72 +1,70 @@
 import { IHttpRequestOptions, IExecuteFunctions } from 'n8n-workflow';
-import { criarLinkOneStep } from '../endpoints/LinkDePagamento/criarLinkOneStep';
-import { criarTransacaoLink } from '../endpoints/LinkDePagamento/criarTransacaoLink';
-import { associarFormaPagamentoLink } from '../endpoints/LinkDePagamento/associarFormaPagamentoLink';
-import { retornarLink } from '../endpoints/LinkDePagamento/retornarLink';
-import { incluirMetadataLink } from '../endpoints/LinkDePagamento/incluirMetadataLink';
-import { alterarLink } from '../endpoints/LinkDePagamento/alterarLink';
-import { cancelarTransacaoLink } from '../endpoints/LinkDePagamento/cancelarTransacaoLink';
-import { acrescentarHistoricoLink } from '../endpoints/LinkDePagamento/acrescentarHistoricoLink';
-import { reenviarEmailLink } from '../endpoints/LinkDePagamento/reenviarEmailLink';
+import { createOneStepLink } from '../endpoints/charge/payment-link/createOneStepLink';
+import { createLinkCharge } from '../endpoints/charge/payment-link/createLinkCharge';
+import { defineLinkPayMethod } from '../endpoints/charge/payment-link/defineLinkPayMethod';
+import { detailLink } from '../endpoints/charge/payment-link/detailLink';
+import { listLinksBillet } from '../endpoints/charge/payment-link/listLinksBillet';
+import { listLinksCard} from '../endpoints/charge/payment-link/listLinksCard';
+import { updateLinkMetadata } from '../endpoints/charge/payment-link/updateLinkMetadata';
+import { updateLink } from '../endpoints/charge/payment-link/updateLink';
+import { cancelLink } from '../endpoints/charge/payment-link/cancelLink';
+import { createChargeLinkHistory } from '../endpoints/charge/payment-link/createChargeLinkHistory';
+import { sendLinkEmail } from '../endpoints/charge/payment-link/sendLinkEmail';
 
 export async function linkService(
   this: IExecuteFunctions,
   endpoint: string,
   i: number,
-	baseURL: string,
-  access_token: string
 ): Promise<IHttpRequestOptions> {
   let requestOptions: IHttpRequestOptions;
-
+ 
   switch (endpoint) {
-    case 'criarLinkOneStep':
-      requestOptions = await criarLinkOneStep(this, i, baseURL, access_token);
+    case 'createOneStepLink':
+      requestOptions = await createOneStepLink(this, i);
       break;
 
-    case 'criarTransacaoLink':
-      requestOptions = await criarTransacaoLink(this, i, baseURL, access_token);
+    case 'createLinkCharge':
+      requestOptions = await createLinkCharge(this, i);
       break;
 
-    case 'associarFormaPagamentoLink':
-			const linkIdAssociar = this.getNodeParameter('charge_id', i) as string;
-      requestOptions = await associarFormaPagamentoLink(this, i, baseURL, access_token, linkIdAssociar);
+    case 'defineLinkPayMethod':
+      requestOptions = await defineLinkPayMethod(this, i);
       break;
 
-		case 'retornarLink':
-			const linkIdRetornar = this.getNodeParameter('charge_id', i) as string;
-			if (!linkIdRetornar || typeof linkIdRetornar !== 'string') {
-				throw new Error('Charge ID é obrigatório e deve ser uma string para retornar o carnê');
-			}
-			requestOptions = await retornarLink(baseURL, access_token, linkIdRetornar);
+		case 'detailLink':
+			requestOptions = await detailLink(this, i);
 			break;
 
-    case 'incluirMetadataLink':
-      const linkIdMetadata = this.getNodeParameter('charge_id', i) as string;
-      requestOptions = await incluirMetadataLink(this, i, baseURL, access_token, linkIdMetadata);
+    case 'listLinksBillet':
+      requestOptions = await listLinksBillet(this, i);
       break;
 
-    case 'alterarLink':
-      const idAlterarLink = this.getNodeParameter('charge_id', i) as string;
-      requestOptions = await alterarLink(this, i, baseURL, access_token, idAlterarLink);
+    case 'listLinksCard':
+      requestOptions = await listLinksCard(this, i);
       break;
 
-    case 'cancelarTransacaoLink':
-      const linkIdCancelar = this.getNodeParameter('charge_id', i) as string;
-      requestOptions = await cancelarTransacaoLink(baseURL, access_token, linkIdCancelar);
+    case 'updateLinkMetadata':
+      requestOptions = await updateLinkMetadata(this, i);
       break;
 
-    case 'reenviarEmailLink':
-			const linkIdReenvio = this.getNodeParameter('charge_id', i) as string;
-      requestOptions = await reenviarEmailLink(this, i, baseURL, access_token, linkIdReenvio);
+    case 'updateLink':
+      requestOptions = await updateLink(this, i);
       break;
 
-    case 'acrescentarHistoricoLink':
-      const linkIdHistorico = this.getNodeParameter('charge_id', i) as string;
-      requestOptions = await acrescentarHistoricoLink(this, i, baseURL, access_token, linkIdHistorico);
+    case 'cancelLink':
+      requestOptions = await cancelLink(this, i);
+      break;
+
+    case 'sendLinkEmail':
+      requestOptions = await sendLinkEmail(this, i);
+      break;
+
+    case 'createChargeLinkHistory':
+      requestOptions = await createChargeLinkHistory(this, i);
       break;
 
 			default:
-				throw new Error(`Endpoint de Boleto não implementado`);
+				throw new Error(`Endpoint de Link de Pagamento não implementado`);
   }
 
   return requestOptions;

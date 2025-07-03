@@ -1,125 +1,107 @@
-import { IExecuteFunctions, IHttpRequestOptions } from "n8n-workflow";
-import { alterarDadosAssinatura } from "../endpoints/Assinatura/alterarDadosAssinatura";
-import { associarPlanoLink } from "../endpoints/Assinatura/associarPlanoLink";
-import { cancelarAssinatura } from "../endpoints/Assinatura/cancelarAssinatura";
-import { criarInscricoesOneStep } from "../endpoints/Assinatura/criarInscricoesOneStep";
-import { criarInscricoesTwoSteps } from "../endpoints/Assinatura/criarInscricoesTwoSteps";
-import { definirFormaPagamento } from "../endpoints/Assinatura/definirFormaPagamento";
-import { retentativaCartao } from "../endpoints/Assinatura/retentativaCartao";
-import { historicoAssinatura } from "../endpoints/Assinatura/historicoAssinatura";
-import { incluirMetadataAssinatura } from "../endpoints/Assinatura/incluirMetadataAssinatura";
-import { reenvioEmailAssinatura } from "../endpoints/Assinatura/reenvioEmailAssinatura";
-import { retornarAssinaturaVinculada } from "../endpoints/Assinatura/retornarAssinaturaVinculada";
-import { criarPlanoAssinatura } from "../endpoints/Assinatura/criarPlanoAssinatura";
-import { retornarInformacoesPlano } from "../endpoints/Assinatura/retornarInformacoesPlano";
-import { editarNomePlano } from "../endpoints/Assinatura/editarNomePlano";
-import { cancelarPlanoAssinatura } from "../endpoints/Assinatura/cancelarPlanoAssinatura";
-import { retornarListaCobrancas } from "../endpoints/Assinatura/retornarListaCobrancas";
+import { IHttpRequestOptions, IExecuteFunctions } from 'n8n-workflow';
+import { cancelSubscription } from '../endpoints/charge/subscription/cancelSubscription';
+import { createSubscription } from '../endpoints/charge/subscription/createSubscription';
+import { createOneStepBilletSubscription } from '../endpoints/charge/subscription/createOneStepBilletSubscription';
+import { createOneStepCardSubscription } from '../endpoints/charge/subscription/createOneStepCardSubscription';
+import { createOneStepSubscriptionLink } from '../endpoints/charge/subscription/createOneStepSubscriptionLink';
+import { createPlan } from '../endpoints/charge/subscription/createPlan';
+import { createSubscriptionHistory } from '../endpoints/charge/subscription/createSubscriptionHistory';
+import { defineSubscriptionPaymentMethodBillet } from '../endpoints/charge/subscription/defineSubscriptionBillet';
+import { deletePlan } from '../endpoints/charge/subscription/deletePlan';
+import { detailSubscription } from '../endpoints/charge/subscription/detailSubscription';
+import { listSubscriptions } from '../endpoints/charge/subscription/listSubscriptions';
+import { listPlans } from '../endpoints/charge/subscription/listPlans';
+import { sendSubscriptionLinkEmail } from '../endpoints/charge/subscription/sendSubscriptionLinkEmail';
+import { updatePlan } from '../endpoints/charge/subscription/updatePlan';
+import { updateSubscription } from '../endpoints/charge/subscription/updateSubscription';
+import { updateSubscriptionMetadata } from '../endpoints/charge/subscription/updateSubscriptionMetadata';
+import { cardPaymentRetrySubscription } from '../endpoints/charge/subscription/cardPaymentRetrySubscription';
+import { defineSubscriptionPaymentMethodCard } from '../endpoints/charge/subscription/defineSubscriptionCard';
 
 export async function assinaturaService(
-    this: IExecuteFunctions,
-    endpoint: string,
-    i: number,
-		baseURL: string,
-    access_token: string
+  this: IExecuteFunctions,
+  endpoint: string,
+  i: number,
 ): Promise<IHttpRequestOptions> {
-    let requestOptions: IHttpRequestOptions;
+  let requestOptions: IHttpRequestOptions;
 
-    try {
-        switch (endpoint) {
-            case 'criarPlanoAssinatura':
-                requestOptions = await criarPlanoAssinatura(this, i, baseURL, access_token);
-                break;
+  switch (endpoint) { 
 
-            case 'retornarInformacoesPlano':
-                requestOptions = await retornarInformacoesPlano(baseURL, access_token);
-                break;
+    case 'cancelSubscription':
+      requestOptions = await cancelSubscription(this, i);
+    break;
 
-            case 'editarNomePlano':
-                const permitirEdicaoId = this.getNodeParameter('planId', i) as string;
-                const nome_plano = this.getNodeParameter('nome_plano', i) as string;
-                requestOptions = await editarNomePlano(baseURL, access_token, permitirEdicaoId, nome_plano);
-                break;
+    case 'createSubscription':
+      requestOptions = await createSubscription(this, i);
+    break;
 
-            case 'cancelarPlanoAssinatura':
-                const cancelarPlanoId = this.getNodeParameter('planId', i) as string;
-                requestOptions = await cancelarPlanoAssinatura(baseURL, access_token, cancelarPlanoId);
-                break;
+    case 'createOneStepBilletSubscription':
+      requestOptions = await createOneStepBilletSubscription(this, i);
+    break;
 
-            case 'criarInscricoesOneStep':
-                const criarInscricoesOneStepId = this.getNodeParameter('planId', i) as string;
-                requestOptions = await criarInscricoesOneStep(this, i, baseURL, access_token, criarInscricoesOneStepId);
-                break;
+    case 'createOneStepCardSubscription':
+      requestOptions = await createOneStepCardSubscription(this, i);
+    break;
 
-            case 'criarInscricoesTwoSteps':
-                const criarInscricoesTwoStepsId = this.getNodeParameter('planId', i) as string;
-                requestOptions = await criarInscricoesTwoSteps(this, i, baseURL, access_token, criarInscricoesTwoStepsId);
-                break;
+    case 'createOneStepSubscriptionLink':
+      requestOptions = await createOneStepSubscriptionLink(this, i);
+    break;
 
-            case 'definirFormaPagamento':
-                const definirFormaPagamentoId = this.getNodeParameter('subscriptionId', i) as string;
-                requestOptions = await definirFormaPagamento(this, i, baseURL, access_token, definirFormaPagamentoId);
-                break;
+    case 'createPlan':
+      requestOptions = await createPlan(this, i);
+    break;
 
-            case 'retentativaCartao':
-                const retentativaId = this.getNodeParameter('chargeId', i) as string;
-                requestOptions = await retentativaCartao(baseURL, access_token, retentativaId);
-                break;
+    case 'createSubscriptionHistory':
+      requestOptions = await createSubscriptionHistory(this, i);
+    break;
 
-            case 'retornarAssinaturaVinculada':
-                const retornarAssinaturaVinculadaId = this.getNodeParameter('subscriptionId', i) as string;
-                requestOptions = await retornarAssinaturaVinculada(baseURL, access_token, retornarAssinaturaVinculadaId);
-                break;
+    case 'defineSubscriptionPaymentMethodBillet':
+      requestOptions = await defineSubscriptionPaymentMethodBillet(this, i);
+    break;
 
-            case 'retornarListaCobrancas':
-                const begin_date = this.getNodeParameter('begin_date', i) as string;
-                const end_date = this.getNodeParameter('end_date', i) as string;
-                requestOptions = await retornarListaCobrancas(baseURL, access_token, begin_date, end_date);
-                break;
+    case 'defineSubscriptionPaymentMethodCard':
+      requestOptions = await defineSubscriptionPaymentMethodCard(this, i);
+    break;
 
-            case 'associarPlanoLink':
-                const associarLinkId = this.getNodeParameter('planId', i) as string;
-                requestOptions = await associarPlanoLink(this, i, baseURL, access_token, associarLinkId);
-                break;
+    case 'deletePlan':
+      requestOptions = await deletePlan(this, i);
+    break;
 
-            case 'incluirMetadataAssinatura':
-                const incluirMetadataAssinaturaId = this.getNodeParameter('subscriptionId', i) as string;
-                requestOptions = await incluirMetadataAssinatura(this, i, baseURL, access_token, incluirMetadataAssinaturaId);
-                break;
+    case 'detailSubscription':
+      requestOptions = await detailSubscription(this, i);
+    break;
 
-            case 'alterarDadosAssinatura':
-                const alterarDadosAssinaturaId = this.getNodeParameter('subscriptionId', i) as string;
-                requestOptions = await alterarDadosAssinatura(this, i, baseURL, access_token, alterarDadosAssinaturaId);
-                break;
+    case 'cardPaymentRetrySubscription':
+      requestOptions = await  cardPaymentRetrySubscription(this, i);
+    break;
 
-            case 'cancelarAssinatura':
-                const cancelarAssinaturaId = this.getNodeParameter('subscriptionId', i) as string;
-                requestOptions = await cancelarAssinatura(baseURL, access_token, cancelarAssinaturaId);
-                break;
+    case 'listSubscriptions':
+      requestOptions = await listSubscriptions(this, i);
+    break;
 
-            case 'historicoAssinatura':
-                const historicoAssinaturaId = this.getNodeParameter('subscriptionId', i) as string;
-                requestOptions = await historicoAssinatura(this, i, baseURL, access_token, historicoAssinaturaId);
-                break;
+    case 'listPlans':
+      requestOptions = await listPlans(this, i);
+    break;
 
-            case 'reenvioEmailAssinatura':
-                const emailClienteReenvio = this.getNodeParameter('chargeId', i) as string;
-                const email = this.getNodeParameter('email', i) as string;
-                requestOptions = await reenvioEmailAssinatura(baseURL, access_token, emailClienteReenvio, email);
-                break;
+    case 'sendSubscriptionLinkEmail':
+      requestOptions = await sendSubscriptionLinkEmail(this, i);
+    break;
 
-            default:
-                throw new Error('Endpoint de Assinatura não implementado');
-        }
-    } catch (error) {
-        if (error.response && error.response.data) {
-            const errorMessage = `Erro: ${error.response.data.error_description || error.response.data.error || 'Erro desconhecido'}`;
-            const errorCode = `Código: ${error.response.data.code || 'Não fornecido'}`;
-            throw new Error(`${errorMessage}\n${errorCode}`);
-        } else {
-            throw new Error(`Erro desconhecido: ${error.message}`);
-        }
-    }
+    case 'updatePlan':
+      requestOptions = await updatePlan(this, i);
+    break;
 
-    return requestOptions;
+    case 'updateSubscription':
+      requestOptions = await updateSubscription(this, i);
+    break;
+
+    case 'updateSubscriptionMetadata':
+      requestOptions = await updateSubscriptionMetadata(this, i);
+    break;
+
+    default:
+       throw new Error(`Endpoint de Assinatura não implementado`);
+  }
+
+  return requestOptions;
 }

@@ -6,18 +6,20 @@ export const assinaturaConfig: INodeProperties[] = [
 	// ID do Plano
   {
     displayName: 'plan_id',
-    name: 'planId',
-    type: 'string',
+    name: 'plan_id',
+    type: 'string', 
+    required: true,
     default: '',
     description: 'Insira o id do plano',
     displayOptions: {
       show: {
         endpoints: [
-          'editarNomePlano',
-          'cancelarPlanoAssinatura',
-          'criarInscricoesOneStep',
-          'criarInscricoesTwoSteps',
-          'associarPlanoLink'
+          'updatePlan',
+          'deletePlan',
+          'createOneStepBilletSubscription',
+          'createOneStepCardSubscription',
+          'createSubscription',
+          'createOneStepSubscriptionLink'
         ],
       },
     },
@@ -26,19 +28,21 @@ export const assinaturaConfig: INodeProperties[] = [
    // ID da inscrição
    {
     displayName: 'subcription_id',
-    name: 'subscriptionId',
+    name: 'subscription_id',
     type: 'string',
+    required: true,
     default: '',
     description: 'Insira o id da assinatura',
     displayOptions: {
       show: {
         endpoints: [
-          'definirFormaPagamento',
-          'retornarAssinaturaVinculada',
-          'incluirMetadataAssinatura',
-          'alterarDadosAssinatura',
-          'cancelarAssinatura',
-          'historicoAssinatura'
+          'defineSubscriptionPaymentMethodBillet',
+          'defineSubscriptionPaymentMethodCard',
+          'detailSubscription',
+          'updateSubscriptionMetadata',
+          'updateSubscription',
+          'cancelSubscription',
+          'createSubscriptionHistory'
         ],
       },
     },
@@ -46,13 +50,14 @@ export const assinaturaConfig: INodeProperties[] = [
 
 	{
     displayName: 'charge_id',
-    name: 'chargeId',
+    name: 'charge_id',
     type: 'string',
+    required: true,
     default: '',
     description: 'Insira o id da cobrança',
     displayOptions: {
       show: {
-        endpoints: ['reenvioEmailAssinatura', 'retentativaCartao'],
+        endpoints: ['sendSubscriptionLinkEmail', 'cardPaymentRetrySubscription'],
       },
     },
   },
@@ -70,7 +75,7 @@ export const assinaturaConfig: INodeProperties[] = [
     description: 'Insira o body da requisição para criar um plano de assinatura',
     displayOptions: {
       show: {
-        endpoints: ['criarPlanoAssinatura'],
+        endpoints: ['createPlan'],
       },
     },
   },
@@ -99,7 +104,7 @@ export const assinaturaConfig: INodeProperties[] = [
         "complement": "",
         "state": "MG"
       },
-      "payment_token": "75bfce47d230b550f7eaac2a932e0878a934cb3",
+      "payment_token": "",
       "update_card": true
     }
   }
@@ -107,7 +112,7 @@ export const assinaturaConfig: INodeProperties[] = [
     description: 'Insira o body da requisição para realizar uma retentativa de pagamento',
     displayOptions: {
       show: {
-        endpoints: ['retentativaCartao'],
+        endpoints: ['cardPaymentRetrySubscription'],
       },
     },
   },
@@ -118,19 +123,20 @@ export const assinaturaConfig: INodeProperties[] = [
     displayName: 'Nome do plano',
     name: 'nome_plano',
     type: 'string',
+    required: true,
     default: '',
     description: 'Insira o novo nome do plano',
     displayOptions: {
       show: {
-        endpoints: ['editarNomePlano'],
+        endpoints: ['updatePlan'], 
       },
     },
   },
 
-  // Criar inscrições (assinaturas) para vincular ao plano em One Step
+  // Criar inscrições (assinaturas) para vincular ao plano em One Step Billet
   {
     displayName: 'Body da Requisição',
-    name: 'requestBodyInscricaoOneStep',
+    name: 'requestBodyInscricaoOneStepBoleto',
     type: 'json',
     default: `{
   "items": [{
@@ -167,7 +173,50 @@ export const assinaturaConfig: INodeProperties[] = [
     description: 'Insira o body da requisição para criar uma assinatura em One Step',
     displayOptions: {
       show: {
-        endpoints: ['criarInscricoesOneStep'],
+        endpoints: ['createOneStepBilletSubscription'],
+      },
+    },
+  },
+
+  // Criar inscrições (assinaturas) para vincular ao plano em One Step Card
+  {
+    displayName: 'Body da Requisição',
+    name: 'requestBodyInscricaoOneStepCartao',
+    type: 'json',
+    default: `{
+  "items": [
+    {
+      "name": "Meu Produto",
+      "value": 5990,
+      "amount": 1
+    }
+  ],
+  "payment": {
+    "credit_card": {
+      "customer": {
+        "name": "Gorbadoc Oldbuck",
+        "cpf": "94271564656",
+        "email": "email_do_cliente@servidor.com.br",
+        "birth": "1990-08-29",
+        "phone_number": "5144916523"
+      },
+      "payment_token": "",
+      "billing_address": {
+        "street": "Avenida Juscelino Kubitschek",
+        "number": "909",
+        "neighborhood": "Bauxita",
+        "zipcode": "35400000",
+        "city": "Ouro Preto",
+        "complement": "",
+        "state": "MG"
+      }
+    }
+  }
+}`,
+    description: 'Insira o body da requisição para criar uma assinatura em One Step',
+    displayOptions: {
+      show: {
+        endpoints: ['createOneStepCardSubscription'],
       },
     },
   },
@@ -187,15 +236,15 @@ export const assinaturaConfig: INodeProperties[] = [
     description: 'Insira o body da requisição para criar uma assinatura em Two Steps',
     displayOptions: {
       show: {
-        endpoints: ['criarInscricoesTwoSteps'],
+        endpoints: ['createSubscription'],
       },
     },
   },
 
-  // Definir a forma de pagamento da assinatura e os dados do cliente
+  // Definir a forma de pagamento da assinatura e os dados do cliente Boleto
   {
     displayName: 'Body da Requisição',
-    name: 'requestBodyFormaPagamento',
+    name: 'requestBodyFormaPagamentoBoleto',
     type: 'json',
     default: `{
   "payment": {
@@ -227,7 +276,43 @@ export const assinaturaConfig: INodeProperties[] = [
     description: 'Insira o body da requisição para definir a forma de pagamento de uma assinatura',
     displayOptions: {
       show: {
-        endpoints: ['definirFormaPagamento'],
+        endpoints: ['defineSubscriptionPaymentMethodBillet'],
+      },
+    },
+  },
+
+  // Definir a forma de pagamento da assinatura e os dados do cliente Cartão
+  {
+    displayName: 'Body da Requisição',
+    name: 'requestBodyFormaPagamentoCartao',
+    type: 'json',
+    default: `{
+  "payment": {
+    "credit_card": {
+      "customer": {
+        "name": "Gorbadoc Oldbuck",
+        "cpf": "94271564656",
+        "email": "email_do_cliente@servidor.com.br",
+        "birth": "1990-08-29",
+        "phone_number": "5144916523"
+      },
+      "payment_token": "",
+      "billing_address": {
+        "street": "Avenida Juscelino Kubitschek",
+        "number": "909",
+        "neighborhood": "Bauxita",
+        "zipcode": "35400000",
+        "city": "Ouro Preto",
+        "complement": "",
+        "state": "MG"
+      }
+    }
+  }
+}`,
+    description: 'Insira o body da requisição para definir a forma de pagamento de uma assinatura',
+    displayOptions: {
+      show: {
+        endpoints: ['defineSubscriptionPaymentMethodCard'],
       },
     },
   },
@@ -256,7 +341,7 @@ export const assinaturaConfig: INodeProperties[] = [
     description: 'Insira o body da requisição para associar o plano ao link de pagamento',
     displayOptions: {
       show: {
-        endpoints: ['associarPlanoLink'],
+        endpoints: ['createOneStepSubscriptionLink'],
       },
     },
   },
@@ -271,7 +356,7 @@ export const assinaturaConfig: INodeProperties[] = [
     description: 'Data início para o filtro da consulta',
     displayOptions: {
       show: {
-        endpoints: ['retornarListaCobrancas'],
+        endpoints: ['listSubscriptions'],
       },
     },
   },
@@ -285,7 +370,7 @@ export const assinaturaConfig: INodeProperties[] = [
     description: 'Data fim para o filtro da consulta',
     displayOptions: {
       show: {
-        endpoints: ['retornarListaCobrancas'],
+        endpoints: ['listSubscriptions'],
       },
     },
   },
@@ -302,7 +387,7 @@ export const assinaturaConfig: INodeProperties[] = [
     description: 'Insira o body da requisição para incluir metadata em uma assinatura existente',
     displayOptions: {
       show: {
-        endpoints: ['incluirMetadataAssinatura'],
+        endpoints: ['updateSubscriptionMetadata'],
       },
     },
   },
@@ -310,7 +395,7 @@ export const assinaturaConfig: INodeProperties[] = [
   // Alterar dados de uma assinatura
   {
     displayName: 'Body da Requisição',
-    name: 'requestBodyAlterarDadosAssinatura',
+    name: 'requestBodyupdateSubscription',
     type: 'json',
     default: `{
   "plan_id": 3,
@@ -332,7 +417,7 @@ export const assinaturaConfig: INodeProperties[] = [
     description: 'Insira o body da requisição para alterar dados de uma assinatura do tipo cartão de crédito',
     displayOptions: {
       show: {
-        endpoints: ['alterarDadosAssinatura'],
+        endpoints: ['updateSubscription'],
       },
     },
   },
@@ -342,11 +427,12 @@ export const assinaturaConfig: INodeProperties[] = [
     displayName: 'Descrição',
     name: 'requestBodyHistorico',
     type: 'string',
+    required: true,
     default: '',
     description: 'Insira a descrição para adicionar ao histórico',
     displayOptions: {
       show: {
-        endpoints: ['historicoAssinatura'],
+        endpoints: ['createSubscriptionHistory'],
       },
     },
   },
@@ -359,10 +445,11 @@ export const assinaturaConfig: INodeProperties[] = [
     type: 'string',
     placeholder: 'name@email.com',
     default: '',
+    required: true,
     description: 'Insira o email para reenviar o link',
     displayOptions: {
       show: {
-        endpoints: ['reenvioEmailAssinatura'],
+        endpoints: ['sendSubscriptionLinkEmail'],
       },
     },
   },

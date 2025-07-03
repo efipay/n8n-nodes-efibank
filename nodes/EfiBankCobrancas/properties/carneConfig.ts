@@ -12,17 +12,17 @@ export const carneConfig: INodeProperties[] = [
     displayOptions: {
       show: {
         endpoints: [
-					'retornarCarne',
-					'incluirMetadataCarne',
-					'alterarVencimentoParcela',
-					'alterarVencimentoParcelas',
-					'cancelarCarne',
-					'cancelarParcelaCarne',
-					'reenvioCarne',
-					'reenvioParcelaCarne',
-					'acrescentarHistoricoCarne',
-					'marcarComoPagoCarne',
-					'marcarComoPagoParcelaCarne'
+					'detailCarnet',
+					'updateCarnetMetadata',
+					'updateCarnetParcel',
+					'updateCarnetParcels',
+					'cancelCarnet',
+					'cancelCarnetParcel',
+					'sendCarnetEmail',
+					'sendCarnetParcelEmail',
+					'createCarnetHistory',
+					'settleCarnet',
+					'settleCarnetParcel'
 				],
       },
     },
@@ -58,7 +58,7 @@ export const carneConfig: INodeProperties[] = [
     description: 'Insira o body da requisição para criar um carnê',
     displayOptions: {
       show: {
-        endpoints: ['criarCarne'],
+        endpoints: ['createCarnet'],
       },
     },
   },
@@ -73,11 +73,11 @@ export const carneConfig: INodeProperties[] = [
     description: 'Data início para o filtro da consulta',
     displayOptions: {
       show: {
-        endpoints: ['retornarListaCarnes'],
+        endpoints: ['listCarnets'],
       },
     },
   },
-
+ 
   {
     displayName: 'end_date',
     name: 'end_date',
@@ -87,7 +87,7 @@ export const carneConfig: INodeProperties[] = [
     description: 'Data fim para o filtro da consulta',
     displayOptions: {
       show: {
-        endpoints: ['retornarListaCarnes'],
+        endpoints: ['listCarnets'],
       },
     },
   },
@@ -104,7 +104,7 @@ export const carneConfig: INodeProperties[] = [
     description: 'Insira o body da requisição para incluir o metadata',
     displayOptions: {
       show: {
-        endpoints: ['incluirMetadataCarne'],
+        endpoints: ['updateCarnetMetadata'],
       },
     },
   },
@@ -119,20 +119,21 @@ export const carneConfig: INodeProperties[] = [
     description: 'Número da parcela que deseja alterar',
     displayOptions: {
       show: {
-        endpoints: ['alterarVencimentoParcela', 'reenvioParcelaCarne', 'cancelarParcelaCarne', 'marcarComoPagoParcelaCarne'],
+        endpoints: ['updateCarnetParcel', 'sendCarnetParcelEmail', 'cancelCarnetParcel', 'settleCarnetParcel'],
       },
     },
   },
   {
     displayName: 'Data de vencimento',
-    name: 'expire_at',
+    name: 'parcel_data',
     type: 'string',
-    default: '2025-12-31',
+    placeholder: '2025-12-31',
+    default: '',
     required: true,
     description: 'Novo vencimento para a parcela do carnê',
     displayOptions: {
       show: {
-        endpoints: ['alterarVencimentoParcela'],
+        endpoints: ['updateCarnetParcel'],
       },
     },
   },
@@ -159,7 +160,7 @@ export const carneConfig: INodeProperties[] = [
     description: 'Insira o body da requisição com as parcelas e as novas datas de vencimento',
     displayOptions: {
       show: {
-        endpoints: ['alterarVencimentoParcelas'],
+        endpoints: ['updateCarnetParcels'],
       },
     },
   },
@@ -176,7 +177,7 @@ export const carneConfig: INodeProperties[] = [
     description: 'E-mail para o qual o carnê será reenviado',
     displayOptions: {
       show: {
-        endpoints: ['reenvioCarne', 'reenvioParcelaCarne'],
+        endpoints: ['sendCarnetEmail', 'sendCarnetParcelEmail'],
       },
     },
   },
@@ -185,11 +186,12 @@ export const carneConfig: INodeProperties[] = [
     displayName: 'Descrição',
     name: 'requestBodyHistorico',
     type: 'string',
+    required: true,
     default: '',
     description: 'Insira a descrição para adicionar ao histórico',
     displayOptions: {
       show: {
-        endpoints: ['acrescentarHistoricoCarne'],
+        endpoints: ['createCarnetHistory'],
       },
     },
   },

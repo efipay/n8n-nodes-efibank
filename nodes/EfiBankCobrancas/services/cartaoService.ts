@@ -1,90 +1,70 @@
 import { IHttpRequestOptions, IExecuteFunctions } from 'n8n-workflow';
-import { criarCartaoOneStep } from '../endpoints/Cartao/criarCartaoOneStep';
-import { criarTransacaoCartao } from '../endpoints/Cartao/criarTransacaoCartao';
-import { associarFormaPagamentoCartao } from '../endpoints/Cartao/associarFormaPagamentoCartao';
-import { retentativaPagamento } from '../endpoints/Cartao/retentativaPagamento';
-import { estornoPagamento } from '../endpoints/Cartao/estornoPagamento';
-import { retornarCobrancaCartao } from '../endpoints/Cartao/retornarCobrancaCartao';
-import { retornarListaCartao } from '../endpoints/Cartao/retornarListaCartao';
-import { incluirMetadataCartao } from '../endpoints/Cartao/incluirMetadataCartao';
-import { cancelarTransacaoCartao } from '../endpoints/Cartao/cancelarTransacaoCartao';
-import { acrescentarHistoricoCartao } from '../endpoints/Cartao/acrescentarHistoricoCartao';
-import { listarParcelas } from '../endpoints/Cartao/listarParcelas';
+import { createOneStepCard } from '../endpoints/charge/card/createOneStepCard';
+import { createCardCharge } from '../endpoints/charge/card/createCardCharge';
+import { defineCardPayMethod } from '../endpoints/charge/card/defineCardPayMethod';
+import { refundCard } from '../endpoints/charge/card/refundCard';
+import { cardPaymentRetry } from '../endpoints/charge/card/cardPaymentRetry';
+import { detailCard } from '../endpoints/charge/card/detailCard';
+import { listCards } from '../endpoints/charge/card/listCards';
+import { updateCardMetadata } from '../endpoints/charge/card/updateCardMetadata';
+import { cancelCard } from '../endpoints/charge/card/cancelCard';
+import { createCardHistory } from '../endpoints/charge/card/createCardHistory';
+import { getInstallments } from '../endpoints/charge/card/getInstallments';
 
 export async function cartaoService(
   this: IExecuteFunctions,
   endpoint: string,
   i: number,
-	baseURL: string,
-  access_token: string
 ): Promise<IHttpRequestOptions> {
   let requestOptions: IHttpRequestOptions;
 
   switch (endpoint) {
-    case 'criarCartaoOneStep':
-      requestOptions = await criarCartaoOneStep(this, i, baseURL, access_token);
-      break;
+    case 'cancelCard':
+      requestOptions = await cancelCard(this, i);
+    break;
 
-    case 'criarTransacaoCartao':
-      requestOptions = await criarTransacaoCartao(this, i, baseURL, access_token);
-      break;
+    case 'createCardHistory':
+      requestOptions = await createCardHistory(this, i);
+    break;
 
-    case 'associarFormaPagamentoCartao':
-			const cartaoIdAssociar = this.getNodeParameter('charge_id', i) as string;
-      requestOptions = await associarFormaPagamentoCartao(this, i, baseURL, access_token, cartaoIdAssociar);
-      break;
+    case 'createCardCharge':
+      requestOptions = await createCardCharge(this, i);
+    break;
 
-    case 'retentativaPagamento':
-      const cartaoIdRetentativa = this.getNodeParameter('charge_id', i) as string;
-      requestOptions = await retentativaPagamento(this, i, baseURL, access_token, cartaoIdRetentativa);
-      break;
+    case 'createOneStepCard':
+      requestOptions = await createOneStepCard(this, i);
+    break;
 
-    case 'estornoPagamento':
-      const cartaoIdEstorno = this.getNodeParameter('charge_id', i) as string;
-      const amount = this.getNodeParameter('amount', i) as number;
-      requestOptions = await estornoPagamento(baseURL, access_token, cartaoIdEstorno, amount);
-      break;
+    case 'defineCardPayMethod':
+      requestOptions = await defineCardPayMethod(this, i);
+    break;
 
-    case 'retornarCobrancaCartao':
-      const cartaoIdRetornar = this.getNodeParameter('charge_id', i) as string;
-      requestOptions = await retornarCobrancaCartao(baseURL, access_token, cartaoIdRetornar);
-      break;
+    case 'refundCard':
+      requestOptions = await refundCard(this, i);
+    break;
 
-    case 'retornarListaCartao':
-					const begin_date = this.getNodeParameter('begin_date', i) as string ?? '';
-					const end_date = this.getNodeParameter('end_date', i) as string ?? '';
+    case 'detailCard':
+      requestOptions = await detailCard(this, i);
+    break;
 
-					if (!begin_date || !end_date) {
-						throw new Error('As datas de início e fim são obrigatórias');
-					}
+    case 'cardPaymentRetry':
+      requestOptions = await cardPaymentRetry(this, i);
+    break;
 
-					requestOptions = await retornarListaCartao(baseURL, access_token, begin_date, end_date);
-					break;
+    case 'listCards':
+      requestOptions = await listCards(this, i);
+    break;
 
-		case 'incluirMetadataCartao':
-			const cartaoIdMetadata = this.getNodeParameter('charge_id', i) as string;
-			requestOptions = await incluirMetadataCartao(this, i, baseURL, access_token, cartaoIdMetadata);
-			break;
+    case 'getInstallments':
+      requestOptions = await getInstallments(this, i);
+    break;
 
-		case 'cancelarTransacaoCartao':
-      const cartaoIdCancelar = this.getNodeParameter('charge_id', i) as string;
-      requestOptions = await cancelarTransacaoCartao(baseURL, access_token, cartaoIdCancelar);
-      break;
+    case 'updateCardMetadata':
+      requestOptions = await updateCardMetadata(this, i);
+    break;
 
-    case 'acrescentarHistoricoCartao':
-      const cartaoIdHistorico = this.getNodeParameter('charge_id', i) as string;
-      requestOptions = await acrescentarHistoricoCartao(this, i, baseURL, access_token, cartaoIdHistorico);
-      break;
-
-		case 'listarParcelas':
-			const identificador = this.getNodeParameter('identificador', i) as string ?? '';
-			const total = Math.trunc(Number(this.getNodeParameter('total', i) ?? 0));
-			const bandeira = this.getNodeParameter('bandeira', i) as string ?? '';
-			requestOptions = await listarParcelas(baseURL, access_token, identificador, total, bandeira);
-			break;
-
-    default:
-      throw new Error('Endpoint de Cartão não implementado');
+      default:
+        throw new Error(`Endpoint de Cartão não implementado`);
   }
 
   return requestOptions;

@@ -6,18 +6,19 @@ export const cartaoConfig: INodeProperties[] = [
     displayName: 'charge_id',
     name: 'charge_id',
     type: 'string',
+	required: true,
     default: '',
     description: 'Insira o id da cobrança',
     displayOptions: {
       show: {
         endpoints: [
-					'associarFormaPagamentoCartao',
-					'retentativaPagamento',
-					'estornoPagamento',
-					'retornarCobrancaCartao',
-					'incluirMetadataCartao',
-					'cancelarTransacaoCartao',
-					'acrescentarHistoricoCartao'
+					'defineCardPayMethod',
+					'cardPaymentRetry',
+					'refundCard',
+					'detailCard',
+					'updateCardMetadata',
+					'cancelCard',
+					'createCardHistory'
 				],
       },
     },
@@ -52,7 +53,7 @@ export const cartaoConfig: INodeProperties[] = [
     description: 'Insira o body da requisição para criar um transação do tipo cartão com a API One Step',
     displayOptions: {
       show: {
-        endpoints: ['criarCartaoOneStep'],
+        endpoints: ['createOneStepCard'],
       },
     },
   },
@@ -72,7 +73,7 @@ export const cartaoConfig: INodeProperties[] = [
 		description: 'Insira o body da requisição para criar uma transação',
 		displayOptions: {
 			show: {
-				endpoints: ['criarTransacaoCartao'],
+				endpoints: ['createCardCharge'],
 			},
 		},
 	},
@@ -99,7 +100,7 @@ export const cartaoConfig: INodeProperties[] = [
 		description: 'Insira o body da requisição para associar a forma de pagamento',
 		displayOptions: {
 			show: {
-				endpoints: ['associarFormaPagamentoCartao'],
+				endpoints: ['defineCardPayMethod'],
 			},
 		},
 	},
@@ -134,7 +135,7 @@ export const cartaoConfig: INodeProperties[] = [
 		description: 'Insira o body da requisição para a retentativade pagamento',
 		displayOptions: {
 			show: {
-				endpoints: ['retentativaPagamento'],
+				endpoints: ['cardPaymentRetry'], 
 			},
 		},
 	},
@@ -145,11 +146,12 @@ export const cartaoConfig: INodeProperties[] = [
     name: 'amount',
 	type: 'number',
     placeholder: '1000',
+	required: true,
     default: null,
     description: 'Insira o valor da cobrança a ser estornado',
     displayOptions: {
       show: {
-        endpoints: ['estornoPagamento'],
+        endpoints: ['refundCard'],
       },
     },
   },
@@ -164,7 +166,7 @@ export const cartaoConfig: INodeProperties[] = [
 			description: 'Data início para o filtro da consulta',
 			displayOptions: {
 				show: {
-					endpoints: ['retornarListaCartao'],
+					endpoints: ['listCards'],
 				},
 			},
 		},
@@ -178,7 +180,7 @@ export const cartaoConfig: INodeProperties[] = [
 			description: 'Data fim para o filtro da consulta',
 			displayOptions: {
 				show: {
-					endpoints: ['retornarListaCartao'],
+					endpoints: ['listCards'],
 				},
 			},
 		},
@@ -195,7 +197,7 @@ export const cartaoConfig: INodeProperties[] = [
     description: 'Insira o body da requisição para incluir o metadata',
     displayOptions: {
       show: {
-        endpoints: ['incluirMetadataCartao'],
+        endpoints: ['updateCardMetadata'],
       },
     },
   },
@@ -205,53 +207,61 @@ export const cartaoConfig: INodeProperties[] = [
     displayName: 'Descrição',
     name: 'requestBodyHistorico',
     type: 'string',
+	required: true,
     default: '',
     description: 'Insira a descrição para adicionar ao histórico',
     displayOptions: {
       show: {
-        endpoints: ['acrescentarHistoricoCartao'],
+        endpoints: ['createCardHistory'],
       },
     },
   },
 
 	// Listar parcelas
-	{
-		displayName: 'Identificador de conta (payee_code)',
-		name: 'identificador',
-		type: 'string',
-		default: "",
-		required: true,
-		description: 'Insira o identificador da conta',
-		displayOptions: {
-			show: {
-				endpoints: ['listarParcelas'],
-			},
-		},
-	},
+	// {
+	// 	displayName: 'Identificador de conta (payee_code)',
+	// 	name: 'identificador',
+	// 	type: 'string',
+	// 	default: "",
+	// 	required: true,
+	// 	description: 'Insira o identificador da conta',
+	// 	displayOptions: {
+	// 		show: {
+	// 			endpoints: ['getInstallments'],
+	// 		},
+	// 	},
+	// },
 	{
 		displayName: 'Valor total da cobrança',
 		name: 'total',
 		type: 'number',
-		default: 1000,
+		default: "",
 		required: true,
 		description: 'Insira o valor total da cobrança',
 		displayOptions: {
 			show: {
-				endpoints: ['listarParcelas'],
+				endpoints: ['getInstallments'],
 			},
 		},
 	},
 
 	{
 		displayName: 'Bandeira do cartão',
-		name: 'bandeira',
-		type: 'string',
+		name: 'brand',
+		type: 'options',
+		options: [
+			{ name: 'Visa', value: 'visa' },
+			{ name: 'Mastercard', value: 'mastercard' },
+			{ name: 'Amex', value: 'amex' },
+			{ name: 'Elo', value: 'elo' },
+			{ name: 'Hipercard', value: 'hipercard' },
+		],
 		default: 'mastercard',
 		required: true,
 		description: 'Insira a Bandeira do cartão',
 		displayOptions: {
 			show: {
-				endpoints: ['listarParcelas'],
+				endpoints: ['getInstallments'],
 			},
 		},
 	},

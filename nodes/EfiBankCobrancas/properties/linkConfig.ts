@@ -6,18 +6,19 @@ export const linkConfig: INodeProperties[] = [
     displayName: 'charge_id',
     name: 'charge_id',
     type: 'string',
+    required: true,
     default: '',
     description: 'Insira o id da cobrança',
     displayOptions: {
       show: {
         endpoints: [
-					'associarFormaPagamentoLink',
-					'retornarLink',
-					'incluirMetadataLink',
-					'alterarLink',
-					'cancelarTransacaoLink',
-					'acrescentarHistoricoLink',
-					'reenviarEmailLink'
+					'defineLinkPayMethod',
+					'detailLink',
+					'updateLinkMetadata',
+					'updateLink',
+					'cancelLink',
+					'createChargeLinkHistory',
+					'sendLinkEmail'
 				],
       },
     },
@@ -71,7 +72,7 @@ export const linkConfig: INodeProperties[] = [
     description: 'Insira o body da requisição para criar um link de pagamento em One Step',
     displayOptions: {
       show: {
-        endpoints: ['criarLinkOneStep'],
+        endpoints: ['createOneStepLink'],
       },
     },
   },
@@ -91,7 +92,7 @@ export const linkConfig: INodeProperties[] = [
 		description: 'Insira o body da requisição para criar uma transação',
 		displayOptions: {
 			show: {
-				endpoints: ['criarTransacaoLink'],
+				endpoints: ['createLinkCharge'],
 			},
 		},
 	},
@@ -112,12 +113,39 @@ export const linkConfig: INodeProperties[] = [
 		description: 'Insira o body da requisição para criar um link de pagamento em Two Stpes',
 		displayOptions: {
 			show: {
-				endpoints: ['associarFormaPagamentoLink'],
+				endpoints: ['defineLinkPayMethod'],
 			},
 		},
 	},
 
+ // Retornar Lista de Links
+		{
+			displayName: 'begin_date',
+			name: 'begin_date',
+			type: 'string',
+			default: '2025-01-01',
+			required: true,
+			description: 'Data início para o filtro da consulta',
+			displayOptions: {
+				show: {
+					endpoints: ['listLinksBillet', 'listLinksCard'],
+				},
+			},
+		},
 
+		{
+			displayName: 'end_date',
+			name: 'end_date',
+			type: 'string',
+			default: '2025-12-31',
+			required: true,
+			description: 'Data fim para o filtro da consulta',
+			displayOptions: {
+				show: {
+					endpoints: ['listLinksBillet', 'listLinksCard'],
+				},
+			},
+		},
 
   // Incluir Metadata
   {
@@ -131,7 +159,7 @@ export const linkConfig: INodeProperties[] = [
     description: 'Insira o body da requisição para incluir o metadata',
     displayOptions: {
       show: {
-        endpoints: ['incluirMetadataLink'],
+        endpoints: ['updateLinkMetadata'],
       },
     },
   },
@@ -142,14 +170,14 @@ export const linkConfig: INodeProperties[] = [
     name: 'requestBodyAlterarLink',
     type: 'json',
     default: `{
-	"billet_discount": 500,
-  "card_discount" : 200,
-  "expire-at": "2024-12-15"
+    "billet_discount": 500,
+    "card_discount" : 200,
+    "expire_at": "2024-12-15"
 }`,
     description: 'Insira o body da requisição para alterar o vencimento do link',
     displayOptions: {
       show: {
-        endpoints: ['alterarLink'],
+        endpoints: ['updateLink'],
       },
     },
   },
@@ -157,14 +185,15 @@ export const linkConfig: INodeProperties[] = [
 // Reenvio de Email
 	{
 		displayName: 'email',
-		name: 'requestBodyReenviarEmailLink',
+		name: 'email',
 		type: 'string',
     placeholder: 'name@email.com',
+    required: true,
     default: '',
 		description: 'Insira o email para o reenvio do link',
 		displayOptions: {
 			show: {
-				endpoints: ['reenviarEmailLink'],
+				endpoints: ['sendLinkEmail'],
 			},
 		},
 	},
@@ -175,13 +204,15 @@ export const linkConfig: INodeProperties[] = [
     displayName: 'Descrição',
     name: 'requestBodyHistorico',
     type: 'string',
+    required: true,
     default: '',
     description: 'Insira a descrição para adicionar ao histórico',
     displayOptions: {
       show: {
-        endpoints: ['acrescentarHistoricoLink'],
+        endpoints: ['createChargeLinkHistory'],
       },
     },
   },
 
 ];
+ 

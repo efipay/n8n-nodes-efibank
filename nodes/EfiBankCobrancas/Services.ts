@@ -1,12 +1,11 @@
-import { IHttpRequestOptions, IExecuteFunctions } from 'n8n-workflow';
+import { IExecuteFunctions } from 'n8n-workflow';
 import { boletoService } from './services/boletoService';
 import { cartaoService } from './services/cartaoService';
 import { carneService } from './services/carneService';
 import { assinaturaService } from './services/assinaturaService';
 import { linkService } from './services/linkService';
 import { splitService } from './services/splitService';
-import { notificacaoService} from './services/notificacaoService';
-import { auth } from './endpoints/Auth/auth';
+import { notificacaoService } from './services/notificacaoService';
 
 export async function execute(
   this: IExecuteFunctions,
@@ -14,63 +13,52 @@ export async function execute(
   i: number
 ) {
   const returnData: any[] = [];
-  const credentials = await this.getCredentials('EfiBankCobApi');
-  const isProd = credentials.environment === 'prod';
-	const clientId = isProd ? credentials.clientIdProd : credentials.clientIdHomolog;
-	const clientSecret = isProd ? credentials.clientSecretProd : credentials.clientSecretHomolog;
-	const baseURL = credentials.environment === 'homolog'
-		? 'https://cobrancas-h.api.efipay.com.br' // Homologação
-		: 'https://cobrancas.api.efipay.com.br';  // Produção
-
-  const access_token = await auth({ clientId: String(clientId), clientSecret: String(clientSecret) }, baseURL, this.helpers.httpRequest);
-
-	const transactionType = this.getNodeParameter('transactionType', i) as string;
-
+  const transactionType = this.getNodeParameter('transactionType', i) as string;
+  
   try {
-    let requestOptions: IHttpRequestOptions;
-
-		switch (transactionType) {
+    let response;
+    
+    switch (transactionType) {
       case 'boleto':
-        requestOptions = await boletoService.call(this, endpoint, i, baseURL, access_token);
+        response = await boletoService.call(this, endpoint, i);
         break;
-			case 'cartao':
-					requestOptions = await cartaoService.call(this, endpoint, i, baseURL, access_token);
-					break;
+      case 'cartao':
+        response = await cartaoService.call(this, endpoint, i);
+        break;
       case 'carne':
-        requestOptions = await carneService.call(this, endpoint, i, baseURL, access_token);
+        response = await carneService.call(this, endpoint, i);
         break;
-			case 'assinatura':
-				requestOptions = await assinaturaService.call(this, endpoint, i, baseURL, access_token);
-				break;
-			case 'link':
-				requestOptions = await linkService.call(this, endpoint, i, baseURL, access_token);
-				break;
-			case 'split':
-				requestOptions = await splitService.call(this, endpoint, i, baseURL, access_token);
-				break;
-			case 'notificacao':
-				requestOptions = await notificacaoService.call(this, endpoint, i, baseURL, access_token);
-				break;
+      case 'assinatura':
+        response = await assinaturaService.call(this, endpoint, i);
+        break;
+      case 'link':
+        response = await linkService.call(this, endpoint, i);
+        break;
+      case 'split':
+        response = await splitService.call(this, endpoint, i);
+        break;
+      case 'notificacao':
+        response = await notificacaoService.call(this, endpoint, i);
+        break;
       default:
-      throw new Error(`Erro: '${transactionType}' não é um tipo de transação válida.`);
+        throw new Error(`Erro: '${transactionType}' não é um tipo de transação válida.`);
     }
-
-		const response = await this.helpers.httpRequest(requestOptions);
-
+    
     returnData.push({ json: response });
-  } catch (error) {
+    
+  } catch (error: any) {
     this.logger.error('Erro ao executar a requisição:', error);
-
+    
     if (error.isAxiosError) {
       if (error.response) {
         const responseData = error.response.data;
         let errorMessage = 'Erro na API';
         let errorDetails = {};
-
+        
         if (typeof responseData === 'object') {
-          errorMessage = responseData.message ||
-                         responseData.error_description ||
-                         responseData.error ||
+          errorMessage = responseData.message || 
+                         responseData.error_description || 
+                         responseData.error || 
                          `Error ${error.response.status}: ${error.response.statusText}`;
           errorDetails = responseData;
         } else if (typeof responseData === 'string') {
@@ -81,13 +69,13 @@ export async function execute(
             errorDetails = { rawResponse: responseData };
           }
         }
-
-        this.logger.error('Erro detalhado da API:', {
+        
+        this.logger.error('Erro detalhado da API:', { 
           statusCode: error.response.status,
-          message: errorMessage,
-          details: JSON.stringify(errorDetails, null, 2)
+          message: errorMessage, 
+          details: JSON.stringify(errorDetails, null, 2) 
         });
-
+        
         returnData.push({
           json: {
             success: false,
@@ -97,47 +85,21 @@ export async function execute(
             details: errorDetails
           },
         });
-      } else if (error.request) {
-        this.logger.error('Sem resposta da API:', { message: error.message });
-        returnData.push({
-          json: {
-            success: false,
-            message: 'Sem resposta da API',
-            error: error.message
-          }
-        });
       } else {
-        this.logger.error('Erro na configuração da requisição:', { message: error.message });
-        returnData.push({
-          json: {
-            success: false,
-            message: 'Erro na configuração da requisição',
-            error: error.message
-          }
-        });
+        this.logger.error('Erro na requisição:', error.message);
+        returnData.push({ json: { error: error.message } });
       }
     } else {
-      this.logger.error('Erro desconhecido:', { message: error.message });
-      returnData.push({
-        json: {
-          success: false,
-          message: 'Erro desconhecido',
-          error: error.message
-        }
-      });
+      this.logger.error('Erro desconhecido:', error.message);
+      returnData.push({ json: { error: error.message } });
     }
-
+    
     if (this.continueOnFail()) {
       return returnData;
     } else {
-      if (error.isAxiosError && error.response && error.response.data) {
-        const apiError = new Error(`API Error: ${JSON.stringify(error.response.data)}`);
-        throw apiError;
-      }
       throw error;
     }
   }
-
+  
   return returnData;
-
 }

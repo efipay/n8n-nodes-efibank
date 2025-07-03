@@ -6,12 +6,13 @@ export const notificacaoConfig: INodeProperties[] = [
     name: 'token',
     // eslint-disable-next-line n8n-nodes-base/node-param-type-options-password-missing
     type: 'string',
+    required: true,
     default: '',
     description: 'Insira o token da notificação',
     displayOptions: {
       show: {
         endpoints: [
-					'consultarNotificacao'
+					'getNotification'
 				],
       },
     },
