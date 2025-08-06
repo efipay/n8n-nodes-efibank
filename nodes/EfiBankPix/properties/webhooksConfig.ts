@@ -24,12 +24,12 @@ export const webhooksConfig: INodeProperties[] = [
     description: 'URL para onde a notificação vai ser enviada',
     displayOptions: {
       show: {
-        endpoints: ['pixConfigWebhook'],
+        endpoints: ['pixConfigWebhook', 'pixConfigWebhookAutomaticCharge', 'pixConfigWebhookRecurrenceAutomatic'],
       },
     },
   },
   {
-    displayName: 'inicio',
+    displayName: '* inicio',
     name: 'begin',
     type: 'string',
     default: '2025-01-01T00:00:00Z',
@@ -42,7 +42,7 @@ export const webhooksConfig: INodeProperties[] = [
     },
   },
   {
-    displayName: 'fim',
+    displayName: '* fim',
     name: 'end',
     type: 'string',
     default: '2025-12-31T23:59:59Z',
@@ -54,14 +54,15 @@ export const webhooksConfig: INodeProperties[] = [
       },
     },
   },
+
   {
     displayName: 'Body da Requisição',
     name: 'bodyWebhookResend',
     type: 'json',
-    default: ` {
+    default: `{
   "tipo": "PIX_RECEBIDO",
   "e2eids": [
-        "E09089356202501151648API44aff264",
+      "E09089356202501151648API44aff264",
       "E09089356202501151647API77209f1c"
   ]
 }`,
@@ -73,5 +74,8 @@ export const webhooksConfig: INodeProperties[] = [
       },
     },
   }
+
+  //Configurar webhook recorrencia
+  
 ];
 

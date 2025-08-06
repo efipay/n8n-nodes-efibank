@@ -76,8 +76,10 @@ export const exclusivesConfig: INodeProperties[] = [
           },
         },
       },
+
+      //Listar infrações
       {
-        displayName: 'inicio',
+        displayName: '* inicio',
         name: 'begin',
         type: 'string',
         default: '2025-01-01T00:00:00Z',
@@ -90,7 +92,7 @@ export const exclusivesConfig: INodeProperties[] = [
         },
       },
       {
-        displayName: 'fim',
+        displayName: '* fim',
         name: 'end',
         type: 'string',
         default: '2025-12-31T23:59:59Z',
@@ -102,6 +104,99 @@ export const exclusivesConfig: INodeProperties[] = [
           },
         },
       },
+
+      {
+        displayName: 'paginacao.paginaAtual',
+        name: 'paginaAtual',
+        type: 'number',
+        default: null,
+        required: false,
+        description: 'Página a ser retornada pela consulta',
+        displayOptions: {
+          show: {
+            endpoints: ['medList'],
+          },
+        },
+      },
+
+      {
+        displayName: 'paginacao.itensPorPagina',
+        name: 'itensPorPagina',
+        type: 'number',
+        default: null,
+        required: false,
+        description: 'Quantidade máxima de registros retornados em cada página',
+        displayOptions: {
+          show: {
+            endpoints: ['medList'],
+          },
+        },
+      },
+
+  //Obter comprovante
+   {
+        displayName: 'e2eid',
+        name: 'e2eid',
+        type: 'string',
+        default: '',
+        required: false,
+        description: 'Insira o e2eid da cobrança',
+        displayOptions: {
+            show: {
+                endpoints: [
+                    'pixGetReceipt'
+                ],
+            },
+        },
+    },
+
+     {
+        displayName: 'idEnvio',
+        name: 'idEnvio',
+        type: 'string',
+        default: '',
+        required: false,
+        description: 'Insira o idEnvio da cobrança',
+        displayOptions: {
+            show: {
+                endpoints: [
+                    'pixGetReceipt'
+                ],
+            },
+        },
+    },
+
+     {
+        displayName: 'rtrId',
+        name: 'rtrId',
+        type: 'string',
+        default: '',
+        required: false,
+        description: 'Insira o rtrId da cobrança',
+        displayOptions: {
+            show: {
+                endpoints: [
+                    'pixGetReceipt'
+                ],
+            },
+        },
+    },
+
+     {
+        displayName: 'txid',
+        name: 'txid',
+        type: 'string',
+        default: '',
+        required: false,
+        description: 'Insira o txid da cobrança',
+        displayOptions: {
+            show: {
+                endpoints: [
+                    'pixGetReceipt'
+                ],
+            },
+        },
+    },
 
 
 //requisitar extrato conciliação      

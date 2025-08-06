@@ -1,8 +1,8 @@
 import EfiPay from 'sdk-node-apis-efi'
-import getEfiBankConfig from '../../../../interfaces/credentials';
+import getEfiBankConfig from '../../../../../interfaces/credentials';
 import { IExecuteFunctions} from 'n8n-workflow';
 
-export async function pixListWebhook(
+export async function pixResendWebhook(
   context: IExecuteFunctions,
   index: number,
 
@@ -11,11 +11,11 @@ export async function pixListWebhook(
     const options = await getEfiBankConfig.call(context);
     const efipay = new EfiPay(options);
 
-    const inicio = context.getNodeParameter('begin', index) as string;
-    const fim = context.getNodeParameter('end', index) as string;
+    const bodyWebhookResend = context.getNodeParameter('bodyWebhookResend', index) as string;
+    const body = JSON.parse(bodyWebhookResend)
     
-    const resposta = await efipay.pixListWebhook({inicio: inicio, fim: fim});
-    return resposta;
+    await efipay.pixResendWebhook({}, body);
+    return ['code: 202'];
   } catch (error: any) {
 
     let mensagemErro = error.message || error.mensagem || error.detail || "Ocorreu um erro desconhecido";

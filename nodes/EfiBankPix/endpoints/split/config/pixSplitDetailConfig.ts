@@ -7,13 +7,21 @@ export async function pixSplitDetailConfig(
   index: number,
 
 ): Promise<any> {
-  try {
+  try { 
     const options = await getEfiBankConfig.call(context);
     const efipay = new EfiPay(options);
 
-    const splitConfigId = context.getNodeParameter('splitConfigId', index) as string;
+    const id = context.getNodeParameter('id', index) as string;
     
-    const resposta = await efipay.pixSplitDetailConfig({ id: splitConfigId });
+    const params: any = { 
+      id 
+    };
+
+    const revisao = context.getNodeParameter('revisao', index) as number;
+
+    if (typeof revisao === 'number' && !isNaN(revisao)) params.revisao = revisao;
+    
+    const resposta = await efipay.pixSplitDetailConfig(params);
     return resposta;
   } catch (error: any) {
 

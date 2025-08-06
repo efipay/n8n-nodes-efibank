@@ -13,7 +13,18 @@ export async function pixListDueChargeBatch(
     const inicio = context.getNodeParameter('inicio', index) as string;
     const fim = context.getNodeParameter('fim', index) as string;
 
-    const resposta = await efipay.pixListDueChargeBatch({ inicio, fim });
+    const params: any = {
+      inicio,
+      fim,
+    };
+
+    const paginaAtual = context.getNodeParameter('paginaAtual', index) as number;
+    const itensPorPagina = context.getNodeParameter('itensPorPagina', index) as number;
+
+    if (typeof paginaAtual === 'number' && !isNaN(paginaAtual)) params['paginacao.paginaAtual'] = paginaAtual;
+    if (typeof itensPorPagina === 'number' && !isNaN(itensPorPagina)) params['paginacao.itensPorPagina'] = itensPorPagina;
+
+    const resposta = await efipay.pixListDueChargeBatch(params);
     return resposta;
   } catch (error: any) {
 

@@ -1,5 +1,5 @@
 import EfiPay from 'sdk-node-apis-efi'
-import getEfiBankConfig from '../../../../interfaces/credentials';
+import getEfiBankConfig from '../../../../../interfaces/credentials';
 import { IExecuteFunctions } from 'n8n-workflow';
 
 export async function pixLocationList(
@@ -13,7 +13,24 @@ export async function pixLocationList(
     const inicio = context.getNodeParameter('inicio', index) as string;
     const fim = context.getNodeParameter('fim', index) as string;
 
-    const resposta = await efipay.pixLocationList({ inicio, fim });
+    const params: any = {
+      inicio,
+      fim,
+    }; 
+
+    const txIdPresente = context.getNodeParameter('txIdPresente', index) as string;
+    const tipoCob = context.getNodeParameter('tipoCob', index) as string;
+    const paginaAtual = context.getNodeParameter('paginaAtual', index) as number;
+    const itensPorPagina = context.getNodeParameter('itensPorPagina', index) as number;
+
+
+    if (txIdPresente && txIdPresente !== 'none') params.txIdPresente = txIdPresente;
+    if (tipoCob?.trim()) params.tipoCob = tipoCob;
+    if (typeof paginaAtual === 'number' && !isNaN(paginaAtual)) params['paginacao.paginaAtual'] = paginaAtual;
+    if (typeof itensPorPagina === 'number' && !isNaN(itensPorPagina)) params['paginacao.itensPorPagina'] = itensPorPagina;
+
+
+    const resposta = await efipay.pixLocationList(params);
     return resposta;
   } catch (error: any) {
 
@@ -30,11 +47,13 @@ export async function pixLocationList(
         try {
           const parsedData = JSON.parse(error.response.data);
           mensagemErro = parsedData.message || parsedData.mensagem || mensagemErro;
+          error = parsedData;
         } catch {
           mensagemErro = error.response.data;
         }
       } else {
         mensagemErro = error.response.data.message || error.response.data.mensagem || mensagemErro;
+        error = error.response.data;
       }
     }
 
@@ -42,11 +61,23 @@ export async function pixLocationList(
       throw new Error("Verifique o atributo sandbox e certificate, e garanta que eles estejam corretamente atribuídos para o ambiente desejado.");
     }
 
-    if (error.violacoes && error.violacoes.length > 0) {
+    if (error.violacoes && Array.isArray(error.violacoes) && error.violacoes.length > 0) {
       const primeiraViolacao = error.violacoes[0];
       throw new Error(JSON.stringify({
-        razao: primeiraViolacao.razao,
-        propriedade: primeiraViolacao.propriedade
+        nome: error.nome || 'violacao',
+        mensagem: mensagemErro,
+        violacao: {
+          razao: primeiraViolacao.razao,
+          propriedade: primeiraViolacao.propriedade
+        }
+      }));
+    }
+
+    if (error.erros && Array.isArray(error.erros) && error.erros.length > 0) {
+      throw new Error(JSON.stringify({
+        nome: error.nome || 'json_invalido',
+        mensagem: mensagemErro,
+        errosDetalhados: error.erros
       }));
     }
 

@@ -9,10 +9,18 @@ export async function pixDetailReceived(
   try {
     const options = await getEfiBankConfig.call(context);
     const efipay = new EfiPay(options);
-
+ 
     const e2eId = context.getNodeParameter('e2eId', index) as string;
 
-    const resposta = await efipay.pixDetailReceived({ e2eId });
+    const params: any = {
+      e2eId
+    };
+
+    const exibirCodigoBanco = context.getNodeParameter('exibirCodigoBanco', index) as string;
+
+    if (exibirCodigoBanco && exibirCodigoBanco !== 'none') params.exibirCodigoBanco = exibirCodigoBanco; 
+
+    const resposta = await efipay.pixDetailReceived(params);
     return resposta;
   } catch (error: any) {
 

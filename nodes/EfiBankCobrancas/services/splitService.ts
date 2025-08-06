@@ -34,7 +34,7 @@ export async function splitService(
 			break;
 
 			default:
-				throw new Error(`Endpoint de Split de Pagamento não implementado`);
+				throw new Error(`Endpoint de Split de Pagamento não implementado: ${endpoint}`);
   }
 
   return requestOptions;

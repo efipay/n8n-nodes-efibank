@@ -10,7 +10,7 @@ import { sendBilletEmail } from '../endpoints/charge/billet/sendBilletEmail';
 import { settleBillet } from '../endpoints/charge/billet/settleBillet';
 import { updateBillet } from '../endpoints/charge/billet/updateBillet';
 import { updateBilletMetadata } from '../endpoints/charge/billet/updateBilletMetadata';
-import { listBillets } from '../endpoints/charge/billet/detailBilletList';
+import { listBillets } from '../endpoints/charge/billet/listBillets';
 
 
 export async function boletoService(
@@ -71,7 +71,7 @@ export async function boletoService(
     break;
 
 			default:
-				throw new Error(`Endpoint de Boleto não implementado`);
+				throw new Error(`Endpoint de Boleto não implementado: ${endpoint}`);
   }
 
   return requestOptions;

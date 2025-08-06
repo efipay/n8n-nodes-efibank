@@ -64,7 +64,7 @@ export async function linkService(
       break;
 
 			default:
-				throw new Error(`Endpoint de Link de Pagamento não implementado`);
+				throw new Error(`Endpoint de Link de Pagamento não implementado: ${endpoint}`);
   }
 
   return requestOptions;

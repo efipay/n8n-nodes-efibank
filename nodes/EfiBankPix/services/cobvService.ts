@@ -24,7 +24,7 @@ export async function cobvService(
        requestOptions = await pixListDueCharges(this, i);
        break;
       default:
-        throw new Error(`Endpoint de cobrança com vencimento não implementado`);
+        throw new Error(`Endpoint de cobrança com vencimento não implementado: ${endpoint}`);
    }
 
   return requestOptions;

@@ -26,7 +26,7 @@ export async function batchService(
       break;
 
     default:
-        throw new Error(`Endpoint de cobrança em lote não implementado`);
+        throw new Error(`Endpoint de cobrança em lote não implementado: ${endpoint}`);
   }
 
   return requestOptions;

@@ -25,7 +25,7 @@ export async function managementService(
       break;
 
     default:
-        throw new Error(`Endpoint de gestão de pix não implementado`);
+        throw new Error(`Endpoint de gestão de pix não implementado: ${endpoint}`);
   }
 
   return requestOptions;

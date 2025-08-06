@@ -120,12 +120,12 @@ export const boletoConfig: INodeProperties[] = [
 
 	  // Retornar Lista de Cobranças
 		{
-			displayName: 'begin_date',
+			displayName: '* begin_date ',
 			name: 'begin_date',
 			type: 'string',
 			default: '2025-01-01',
 			required: true,
-			description: 'Data início para o filtro da consulta',
+			description: 'Data início para o filtro da consulta. Campo obrigatório',
 			displayOptions: {
 				show: {
 					endpoints: ['listBillets'],
@@ -134,12 +134,12 @@ export const boletoConfig: INodeProperties[] = [
 		},
 
 		{
-			displayName: 'end_date',
+			displayName: '* end_date',
 			name: 'end_date',
 			type: 'string',
 			default: '2025-12-31',
 			required: true,
-			description: 'Data fim para o filtro da consulta',
+			description: 'Data fim para o filtro da consulta. Campo obrigatório',
 			displayOptions: {
 				show: {
 					endpoints: ['listBillets'],
@@ -147,117 +147,117 @@ export const boletoConfig: INodeProperties[] = [
 			},
 		},
 
-    // {
-		// 	displayName: 'date_of',
-		// 	name: 'date_of',
-		// 	type: 'string',
-		// 	default: '',
-		// 	required: false,
-		// 	description: 'Define por qual valor o filtro de data será aplicado',
-		// 	displayOptions: {
-		// 		show: {
-		// 			endpoints: ['listBillets'],
-		// 		},
-		// 	},
-		// },
+    {
+			displayName: 'date_of',
+			name: 'date_of',
+			type: 'string',
+			default: '',
+			required: false,
+			description: 'Define por qual valor o filtro de data será aplicado',
+			displayOptions: {
+				show: {
+					endpoints: ['listBillets'],
+				},
+			},
+		},
 
-    // {
-		// 	displayName: 'status',
-		// 	name: 'status',
-		// 	type: 'string',
-		// 	default: '',
-		// 	required: false,
-		// 	description: 'Status das cobranças',
-		// 	displayOptions: {
-		// 		show: {
-		// 			endpoints: ['listBillets'],
-		// 		},
-		// 	},
-		// },
+    {
+			displayName: 'status',
+			name: 'status',
+			type: 'string',
+			default: '',
+			required: false,
+			description: 'Status das cobranças',
+			displayOptions: {
+				show: {
+					endpoints: ['listBillets'],
+				},
+			},
+		},
 
-    // {
-		// 	displayName: 'customer_document',
-		// 	name: 'customer_document',
-		// 	type: 'string',
-		// 	default: '',
-		// 	required: false,
-		// 	description: 'Documento do pagador',
-		// 	displayOptions: {
-		// 		show: {
-		// 			endpoints: ['listBillets'],
-		// 		},
-		// 	},
-		// },
+    {
+			displayName: 'customer_document',
+			name: 'customer_document',
+			type: 'string',
+			default: '',
+			required: false,
+			description: 'Documento do pagador',
+			displayOptions: {
+				show: {
+					endpoints: ['listBillets'],
+				},
+			},
+		},
 
-    // {
-		// 	displayName: 'custom_id',
-		// 	name: 'custom_id',
-		// 	type: 'string',
-		// 	default: '',
-		// 	required: false,
-		// 	description: 'ID específico de seu sistema ou aplicação',
-		// 	displayOptions: {
-		// 		show: {
-		// 			endpoints: ['listBillets'],
-		// 		},
-		// 	},
-		// },
+    {
+			displayName: 'custom_id',
+			name: 'custom_id',
+			type: 'string',
+			default: '',
+			required: false,
+			description: 'ID específico de seu sistema ou aplicação',
+			displayOptions: {
+				show: {
+					endpoints: ['listBillets'],
+				},
+			},
+		},
+ 
+    {
+			displayName: 'value',
+			name: 'value',
+			type: 'number',
+			default: null,
+			required: false,
+			description: 'valor da cobrança',
+			displayOptions: {
+				show: {
+					endpoints: ['listBillets'],
+				},
+			},
+		},
 
-    // {
-		// 	displayName: 'value',
-		// 	name: 'value',
-		// 	type: 'number',
-		// 	default: undefined,
-		// 	required: false,
-		// 	description: 'valor da cobrança',
-		// 	displayOptions: {
-		// 		show: {
-		// 			endpoints: ['listBillets'],
-		// 		},
-		// 	},
-		// },
+    {
+			displayName: 'limit',
+			name: 'limit',
+			type: 'number',
+      default: null,
+			required: false,
+			description: 'Quantidade de registros retornados pela consulta',
+			displayOptions: {
+				show: {
+					endpoints: ['listBillets'],
+				},
+			},
+		},
 
-    // {
-		// 	displayName: 'limit',
-		// 	name: 'limit',
-		// 	type: 'number',
-		// 	default: undefined,
-		// 	required: false,
-		// 	description: 'Quantidade de registros retornados pela consulta',
-		// 	displayOptions: {
-		// 		show: {
-		// 			endpoints: ['listBillets'],
-		// 		},
-		// 	},
-		// },
+    {
+			displayName: 'page',
+			name: 'page',
+			type: 'number',
+			default: null,
+			required: false,
+			description: 'Página a ser retornada pela consulta',
+			displayOptions: {
+				show: {
+					endpoints: ['listBillets'],
+				},
+			},
+		},
 
-    // {
-		// 	displayName: 'page',
-		// 	name: 'page',
-		// 	type: 'number',
-		// 	default: undefined,
-		// 	required: false,
-		// 	description: 'Página a ser retornada pela consulta',
-		// 	displayOptions: {
-		// 		show: {
-		// 			endpoints: ['listBillets'],
-		// 		},
-		// 	},
-		// },
-
-    // {
-		// 	displayName: 'offset',
-		// 	name: 'offset',
-		// 	type: 'number',
-		// 	default: undefined,
-		// 	required: false,
-		// 	description: 'Quantidade máxima de registros retornados em cada página',
-		// 	displayOptions: {
-		// 		show: {
-		// 			endpoints: ['listBillets'],
-		// 		},
-		// 	},
-		// },
+    {
+			displayName: 'offset',
+			name: 'offset',
+			type: 'number',
+			default: null,
+			required: false,
+			description: 'Quantidade máxima de registros retornados em cada página',
+			displayOptions: {
+				show: {
+					endpoints: ['listBillets'],
+				},
+			},
+		},
 
   // Incluir Metadata
   {
@@ -281,9 +281,10 @@ export const boletoConfig: INodeProperties[] = [
     displayName: 'Data de vencimento',
     name: 'requestBodyAlterarVencimento',
     type: 'string',
+    required: true,
     placeholder: '2025-10-16',
     default: '',
-    description: 'Insira a nova data de vencimento do boleto',
+    description: 'Insira a nova data de vencimento do boleto.',
     displayOptions: {
       show: {
         endpoints: ['updateBillet'],

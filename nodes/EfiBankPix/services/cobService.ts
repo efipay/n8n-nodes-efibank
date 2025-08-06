@@ -28,7 +28,7 @@ export async function cobService(
       requestOptions = await pixListCharges(this, i);
       break;
 			default:
-				throw new Error(`Endpoint de cobrança imediata não implementado`);
+				throw new Error(`Endpoint de cobrança imediata não implementado: ${endpoint}`);
   }
 
   return requestOptions;

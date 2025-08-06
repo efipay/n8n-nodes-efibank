@@ -1,9 +1,13 @@
 import { IHttpRequestOptions, IExecuteFunctions } from 'n8n-workflow';
-import { pixCreateLocation } from '../endpoints/location/pixCreateLocation'; 
-import { pixLocationList } from '../endpoints/location/pixLocationList';
-import { pixDetailLocation } from '../endpoints/location/pixDetailLocation';
-import { pixGenerateQRCode } from '../endpoints/location/pixGenerateQRCode';
-import { pixUnlinkTxidLocation } from '../endpoints/location/pixUnlinkTxidLocation';
+import { pixCreateLocation } from '../endpoints/location/loc/pixCreateLocation'; 
+import { pixLocationList } from '../endpoints/location/loc/pixLocationList';
+import { pixDetailLocation } from '../endpoints/location/loc/pixDetailLocation';
+import { pixGenerateQRCode } from '../endpoints/location/loc/pixGenerateQRCode';
+import { pixUnlinkTxidLocation } from '../endpoints/location/loc/pixUnlinkTxidLocation';
+import { pixCreateLocationRecurrenceAutomatic } from '../endpoints/location/locRec/pixCreateLocationRecurrenceAutomatic';
+import { pixListLocationRecurrenceAutomatic } from '../endpoints/location/locRec/pixListLocationRecurrenceAutomatic';
+import { pixDetailLocationRecurrenceAutomatic } from '../endpoints/location/locRec/pixDetailLocationRecurrenceAutomatic';
+import { pixUnlinkLocationRecurrenceAutomatic } from '../endpoints/location/locRec/pixUnlinkLocationRecurrenceAutomatic';
 
 export async function locationService(
   this: IExecuteFunctions,
@@ -27,9 +31,21 @@ export async function locationService(
     case 'pixUnlinkTxidLocation':
       requestOptions = await pixUnlinkTxidLocation(this, i);
       break;
+    case 'pixCreateLocationRecurrenceAutomatic':
+      requestOptions = await pixCreateLocationRecurrenceAutomatic(this, i);
+    break;
+    case 'pixListLocationRecurrenceAutomatic':
+      requestOptions = await pixListLocationRecurrenceAutomatic(this, i);
+      break;
+    case 'pixDetailLocationRecurrenceAutomatic':
+      requestOptions = await pixDetailLocationRecurrenceAutomatic(this, i);
+      break;
+    case 'pixUnlinkLocationRecurrenceAutomatic':
+      requestOptions = await pixUnlinkLocationRecurrenceAutomatic(this, i);
+      break;
 
     default:
-        throw new Error(`Endpoint de location não implementado`);
+        throw new Error(`Endpoint de location não implementado: ${endpoint}`);
   }
 
   return requestOptions;

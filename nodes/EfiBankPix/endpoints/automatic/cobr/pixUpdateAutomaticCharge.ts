@@ -1,18 +1,22 @@
 import EfiPay from 'sdk-node-apis-efi'
-import getEfiBankConfig from '../../../../interfaces/credentials';
+import getEfiBankConfig from '../../../../../interfaces/credentials';
 import { IExecuteFunctions } from 'n8n-workflow';
 
-export async function pixGenerateQRCode(
+export async function pixUpdateAutomaticCharge(
   context: IExecuteFunctions,
   index: number,
 ): Promise<any> {
   try {
     const options = await getEfiBankConfig.call(context);
     const efipay = new EfiPay(options);
+ 
+    const txid = context.getNodeParameter('txid', index) as string;
+    const requestBody = context.getNodeParameter('requestBodyPixUpdateRequestRecurrenceAutomatic', index) as string;
 
-    const id = context.getNodeParameter('id', index) as number;
-
-    const resposta = await efipay.pixGenerateQRCode({ id });
+    const body = JSON.parse(requestBody);
+    const params = { txid };
+// @ts-ignore
+    const resposta = await efipay.pixUpdateAutomaticCharge(params, body);
     return resposta;
   } catch (error: any) {
 
@@ -55,4 +59,3 @@ export async function pixGenerateQRCode(
     }));
   }
 }
-

@@ -63,34 +63,146 @@ export const carneConfig: INodeProperties[] = [
     },
   },
 
-  // Retornar Lista de Carnês
-  {
-    displayName: 'begin_date',
-    name: 'begin_date',
-    type: 'string',
-    default: '2025-01-01',
-    required: true,
-    description: 'Data início para o filtro da consulta',
-    displayOptions: {
-      show: {
-        endpoints: ['listCarnets'],
-      },
-    },
-  },
- 
-  {
-    displayName: 'end_date',
-    name: 'end_date',
-    type: 'string',
-    default: '2025-12-31',
-    required: true,
-    description: 'Data fim para o filtro da consulta',
-    displayOptions: {
-      show: {
-        endpoints: ['listCarnets'],
-      },
-    },
-  },
+   // Retornar Lista de Cobranças
+		{
+			displayName: '* begin_date ',
+			name: 'begin_date',
+			type: 'string',
+			default: '2025-01-01',
+			required: true,
+			description: 'Data início para o filtro da consulta. Campo obrigatório',
+			displayOptions: {
+				show: {
+					endpoints: ['listCarnets'],
+				},
+			},
+		},
+
+		{
+			displayName: '* end_date',
+			name: 'end_date',
+			type: 'string',
+			default: '2025-12-31',
+			required: true,
+			description: 'Data fim para o filtro da consulta. Campo obrigatório',
+			displayOptions: {
+				show: {
+					endpoints: ['listCarnets'],
+				},
+			},
+		},
+
+    {
+			displayName: 'date_of',
+			name: 'date_of',
+			type: 'string',
+			default: '',
+			required: false,
+			description: 'Define por qual valor o filtro de data será aplicado',
+			displayOptions: {
+				show: {
+					endpoints: ['listCarnets'],
+				},
+			},
+		},
+
+    {
+			displayName: 'status',
+			name: 'status',
+			type: 'string',
+			default: '',
+			required: false,
+			description: 'Status das cobranças',
+			displayOptions: {
+				show: {
+					endpoints: ['listCarnets'],
+				},
+			},
+		},
+
+    {
+			displayName: 'customer_document',
+			name: 'customer_document',
+			type: 'string',
+			default: '',
+			required: false,
+			description: 'Documento do pagador',
+			displayOptions: {
+				show: {
+					endpoints: ['listCarnets'],
+				},
+			},
+		},
+
+    {
+			displayName: 'custom_id',
+			name: 'custom_id',
+			type: 'string',
+			default: '',
+			required: false,
+			description: 'ID específico de seu sistema ou aplicação',
+			displayOptions: {
+				show: {
+					endpoints: ['listCarnets'],
+				},
+			},
+		},
+
+    {
+			displayName: 'value',
+			name: 'value',
+			type: 'number',
+			default: null,
+			required: false,
+			description: 'valor da cobrança',
+			displayOptions: {
+				show: {
+					endpoints: ['listCarnets'],
+				},
+			},
+		},
+
+    {
+			displayName: 'limit',
+			name: 'limit',
+			type: 'number',
+      default: null,
+			required: false,
+			description: 'Quantidade de registros retornados pela consulta',
+			displayOptions: {
+				show: {
+					endpoints: ['listCarnets'],
+				},
+			},
+		},
+
+    {
+			displayName: 'page',
+			name: 'page',
+			type: 'number',
+			default: null,
+			required: false,
+			description: 'Página a ser retornada pela consulta',
+			displayOptions: {
+				show: {
+					endpoints: ['listCarnets'],
+				},
+			},
+		},
+
+    {
+			displayName: 'offset',
+			name: 'offset',
+			type: 'number',
+			default: null,
+			required: false,
+			description: 'Quantidade máxima de registros retornados em cada página',
+			displayOptions: {
+				show: {
+					endpoints: ['listCarnets'],
+				},
+			},
+		},
 
   // Incluir Metadata do Carnê
   {

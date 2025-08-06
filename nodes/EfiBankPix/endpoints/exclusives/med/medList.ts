@@ -13,8 +13,19 @@ export async function medList(
 
     const inicio = context.getNodeParameter('begin', index) as string;
     const fim = context.getNodeParameter('end', index) as string;
+
+    const params: any = {
+      inicio,
+      fim,
+    }; 
+
+    const paginaAtual = context.getNodeParameter('paginaAtual', index) as number;
+    const itensPorPagina = context.getNodeParameter('itensPorPagina', index) as number;
+
+    if (typeof paginaAtual === 'number' && !isNaN(paginaAtual)) params['paginacao.paginaAtual'] = paginaAtual;
+    if (typeof itensPorPagina === 'number' && !isNaN(itensPorPagina)) params['paginacao.itensPorPagina'] = itensPorPagina;
     
-    const resposta = await efipay.medList({ inicio: inicio, fim: fim });
+    const resposta = await efipay.medList(params);
     return resposta;
   } catch (error: any) {
 

@@ -1,20 +1,20 @@
-
 import EfiPay from 'sdk-node-apis-efi'
-import getEfiBankConfig from '../../../../interfaces/credentials';
+import getEfiBankConfig from '../../../../../interfaces/credentials';
 import { IExecuteFunctions } from 'n8n-workflow';
 
-export async function pixCreateLocation(
+export async function pixCreateRequestRecurrenceAutomatic(
   context: IExecuteFunctions,
   index: number,
 ): Promise<any> {
   try {
     const options = await getEfiBankConfig.call(context);
     const efipay = new EfiPay(options);
+ 
+    const requestBody = context.getNodeParameter('requestBodyPixCreateRequestRecurrenceAutomatic', index) as string;
 
-    const tipoCob = context.getNodeParameter('tipoCob', index) as "cob" | "cobv";
-    const body = {tipoCob: tipoCob};
-
-    const resposta = await efipay.pixCreateLocation({}, body);
+    const body = JSON.parse(requestBody);
+// @ts-ignore
+    const resposta = await efipay.pixCreateRequestRecurrenceAutomatic({}, body);
     return resposta;
   } catch (error: any) {
 
@@ -57,4 +57,3 @@ export async function pixCreateLocation(
     }));
   }
 }
-

@@ -346,34 +346,191 @@ export const assinaturaConfig: INodeProperties[] = [
     },
   },
 
-  // Retornar Lista de Cobranças
-  {
-    displayName: 'begin_date',
-    name: 'begin_date',
-    type: 'string',
-    default: '2025-01-01',
-    required: true,
-    description: 'Data início para o filtro da consulta',
-    displayOptions: {
-      show: {
-        endpoints: ['listSubscriptions'],
-      },
-    },
-  },
+  // Retornar Lista de planos
+		{
+			displayName: 'name',
+			name: 'name',
+			type: 'string',
+			default: '',
+			required: false,
+			description: 'Nome do plano cadastrado previamente',
+			displayOptions: {
+				show: {
+					endpoints: ['listPlans'],
+				},
+			},
+		},
 
-  {
-    displayName: 'end_date',
-    name: 'end_date',
-    type: 'string',
-    default: '2025-12-31',
-    required: true,
-    description: 'Data fim para o filtro da consulta',
-    displayOptions: {
-      show: {
-        endpoints: ['listSubscriptions'],
-      },
-    },
-  },
+		{
+			displayName: 'limit',
+			name: 'limit',
+			type: 'number',
+			default: null,
+			required: false,
+			description: 'Limite máximo de registros de resposta',
+			displayOptions: {
+				show: {
+					endpoints: ['listPlans'],
+				},
+			},
+		},
+
+    {
+			displayName: 'offset',
+			name: 'offset',
+			type: 'number',
+			default: null,
+			required: false,
+			description: 'Determina a partir de qual registro a busca será realizada',
+			displayOptions: {
+				show: {
+					endpoints: ['listPlans'],
+				},
+			},
+		},
+
+
+
+   // Retornar Lista de Cobranças
+		{
+			displayName: '* begin_date ',
+			name: 'begin_date',
+			type: 'string',
+			default: '2025-01-01',
+			required: true,
+			description: 'Data início para o filtro da consulta. Campo obrigatório',
+			displayOptions: {
+				show: {
+					endpoints: ['listSubscriptions'],
+				},
+			},
+		},
+
+		{
+			displayName: '* end_date',
+			name: 'end_date',
+			type: 'string',
+			default: '2025-12-31',
+			required: true,
+			description: 'Data fim para o filtro da consulta. Campo obrigatório',
+			displayOptions: {
+				show: {
+					endpoints: ['listSubscriptions'],
+				},
+			},
+		},
+
+    {
+			displayName: 'date_of',
+			name: 'date_of',
+			type: 'string',
+			default: '',
+			required: false,
+			description: 'Define por qual valor o filtro de data será aplicado',
+			displayOptions: {
+				show: {
+					endpoints: ['listSubscriptions'],
+				},
+			},
+		},
+
+    {
+			displayName: 'status',
+			name: 'status',
+			type: 'string',
+			default: '',
+			required: false,
+			description: 'Status das cobranças',
+			displayOptions: {
+				show: {
+					endpoints: ['listSubscriptions'],
+				},
+			},
+		},
+
+    {
+			displayName: 'customer_document',
+			name: 'customer_document',
+			type: 'string',
+			default: '',
+			required: false,
+			description: 'Documento do pagador',
+			displayOptions: {
+				show: {
+					endpoints: ['listSubscriptions'],
+				},
+			},
+		},
+
+    {
+			displayName: 'custom_id',
+			name: 'custom_id',
+			type: 'string',
+			default: '',
+			required: false,
+			description: 'ID específico de seu sistema ou aplicação',
+			displayOptions: {
+				show: {
+					endpoints: ['listSubscriptions'],
+				},
+			},
+		},
+
+    {
+			displayName: 'value',
+			name: 'value',
+			type: 'number',
+			default: null,
+			required: false,
+			description: 'valor da cobrança',
+			displayOptions: {
+				show: {
+					endpoints: ['listSubscriptions'],
+				},
+			},
+		},
+
+    {
+			displayName: 'limit',
+			name: 'limit',
+			type: 'number',
+      default: null,
+			required: false,
+			description: 'Quantidade de registros retornados pela consulta',
+			displayOptions: {
+				show: {
+					endpoints: ['listSubscriptions'],
+				},
+			},
+		},
+
+    {
+			displayName: 'page',
+			name: 'page',
+			type: 'number',
+			default: null,
+			required: false,
+			description: 'Página a ser retornada pela consulta',
+			displayOptions: {
+				show: {
+					endpoints: ['listSubscriptions'],
+				},
+			},
+		},
+
+    {
+			displayName: 'offset',
+			name: 'offset',
+			type: 'number',
+			default: null,
+			required: false,
+			description: 'Quantidade máxima de registros retornados em cada página',
+			displayOptions: {
+				show: {
+					endpoints: ['listSubscriptions'],
+				},
+			},
+		},
 
   // Incluir "notification_url" e "custom_id" em uma assinatura existente
   {

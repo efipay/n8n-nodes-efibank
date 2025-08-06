@@ -1,8 +1,8 @@
 import EfiPay from 'sdk-node-apis-efi'
-import getEfiBankConfig from '../../../../interfaces/credentials';
+import getEfiBankConfig from '../../../../../interfaces/credentials';
 import { IExecuteFunctions} from 'n8n-workflow';
 
-export async function pixDetailWebhook(
+export async function pixListWebhook(
   context: IExecuteFunctions,
   index: number,
 
@@ -11,9 +11,10 @@ export async function pixDetailWebhook(
     const options = await getEfiBankConfig.call(context);
     const efipay = new EfiPay(options);
 
-    const pixKey = context.getNodeParameter('pixKey', index) as string;
+    const inicio = context.getNodeParameter('begin', index) as string;
+    const fim = context.getNodeParameter('end', index) as string;
     
-    const resposta = await efipay.pixDetailWebhook({ chave: pixKey });
+    const resposta = await efipay.pixListWebhook({inicio: inicio, fim: fim});
     return resposta;
   } catch (error: any) {
 

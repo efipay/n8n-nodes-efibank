@@ -11,7 +11,7 @@ export const splitConfig: INodeProperties[] = [
         displayOptions: {
           show: {
             endpoints: ['pixSplitDetailCharge', 'pixSplitLinkCharge', 'pixSplitUnlinkCharge', 'pixSplitDetailDueCharge', 'pixSplitLinkDueCharge', 'pixSplitUnlinkDueCharge'],
-          },
+          }, 
         },
     },
     {
@@ -23,8 +23,37 @@ export const splitConfig: INodeProperties[] = [
         description: 'Insira o identificador do Split de pagamento',
         displayOptions: {
           show: {
-            endpoints: ['pixSplitLinkCharge', 'pixSplitLinkDueCharge', 'getEfiBankConfig', 'pixSplitDetailConfig', 'pixSplitConfigId'],
+            endpoints: ['pixSplitLinkCharge', 'pixSplitLinkDueCharge', 'getEfiBankConfig', 'pixSplitConfigId'],
           },
+        },
+    },
+
+    //Consultar configuração de split
+    {
+        displayName: 'id',
+        name: 'id',
+        type: 'string',
+        default: '',
+        required: true,
+        description: 'Insira o identificador do Split de pagamento',
+        displayOptions: {
+          show: {
+            endpoints: ['pixSplitDetailConfig'],
+          },
+        },
+    },
+
+    {
+        displayName: 'revisao',
+        name: 'revisao',
+        type: 'number',
+        default: null,
+        required: false,
+        description: 'Permite recuperar revisões anteriores da configuração de split',
+        displayOptions: {
+        show: {
+            endpoints: ['pixSplitDetailConfig'],
+        },
         },
     },
 

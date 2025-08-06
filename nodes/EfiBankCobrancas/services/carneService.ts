@@ -4,7 +4,7 @@ import { cancelCarnetParcel } from "../endpoints/charge/carnet/cancelCarnetParce
 import { createCarnet } from "../endpoints/charge/carnet/createCarnet";
 import { createCarnetHistory } from "../endpoints/charge/carnet/createCarnetHistory";
 import { detailCarnet } from "../endpoints/charge/carnet/detailCarnet";
-import { listCarnets } from "../endpoints/charge/carnet/detailCarnetList";
+import { listCarnets } from "../endpoints/charge/carnet/listCarnets";
 import { sendCarnetEmail } from "../endpoints/charge/carnet/sendCarnetEmail";
 import { sendCarnetParcelEmail } from "../endpoints/charge/carnet/sendCarnetParcelEmail";
 import { settleCarnet } from "../endpoints/charge/carnet/settleCarnet";
@@ -74,7 +74,7 @@ export async function carneService(
       break;
 
     default:
-      throw new Error(`Endpoint de Carnê não implementado`);
+      throw new Error(`Endpoint de Carnê não implementado: ${endpoint}`);
   }
 
   return requestOptions;

@@ -11,9 +11,18 @@ export async function pixDetailCharge(
     const efipay = new EfiPay(options);
 
     const txid = context.getNodeParameter('txid', index) as string;
+    
+    const params: any = { 
+      txid 
+    };
 
-    const resposta = await efipay.pixDetailCharge({ txid });
+    const revisao = context.getNodeParameter('revisao', index) as number;
+
+    if (typeof revisao === 'number' && !isNaN(revisao)) params.revisao = revisao;
+    
+    const resposta = await efipay.pixDetailCharge(params);
     return resposta;
+    
   } catch (error: any) {
 
     let mensagemErro = error.message || error.mensagem || error.detail || "Ocorreu um erro desconhecido";

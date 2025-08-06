@@ -7,6 +7,7 @@ export const cobConfig: INodeProperties[] = [
     name: 'txid',
     type: 'string',
     default: '',
+    required: true,
     description: 'Insira o txid da cobrança',
     displayOptions: {
       show: {
@@ -19,8 +20,24 @@ export const cobConfig: INodeProperties[] = [
     },
   },
 
+  // Consultar cobrança
   {
-    displayName: 'inicio',
+    displayName: 'revisao',
+    name: 'revisao',
+    type: 'number',
+    default: null,
+		required: false,
+    description: 'Permite recuperar revisões anteriores de uma cobrança',
+    displayOptions: {
+      show: {
+        endpoints: ['pixDetailCharge'],
+      },
+    },
+  },
+
+  //Listar cobranças
+  {
+    displayName: '* inicio',
     name: 'inicio',
     type: 'string',
     default: '2025-01-01T00:00:00Z',
@@ -34,7 +51,7 @@ export const cobConfig: INodeProperties[] = [
   },
 
   {
-    displayName: 'fim',
+    displayName: '* fim',
     name: 'fim',
     type: 'string',
     default: '2025-12-31T23:59:59Z',
@@ -46,6 +63,77 @@ export const cobConfig: INodeProperties[] = [
       },
     },
   },
+
+  {
+    displayName: 'cpf',
+    name: 'cpf',
+    type: 'string',
+		default: '',
+    required: false,
+    description: 'CPF do pagador',
+    displayOptions: {
+      show: {
+        endpoints: ['pixListCharges'],
+      },
+    },
+  },
+
+  {
+    displayName: 'cnpj',
+    name: 'cnpj',
+    type: 'string',
+		default: '',
+    required: false,
+    description: 'CNPJ do pagador',
+    displayOptions: {
+      show: {
+        endpoints: ['pixListCharges'],
+      },
+    },
+  },
+
+  {
+    displayName: 'status',
+    name: 'status',
+    type: 'string',
+		default: '',
+    required: false,
+    description: 'Status da cobrança',
+    displayOptions: {
+      show: {
+        endpoints: ['pixListCharges'],
+      },
+    },
+  },
+
+  {
+    displayName: 'paginacao.paginaAtual',
+    name: 'paginaAtual',
+    type: 'number',
+    default: null,
+    required: false,
+    description: 'Página a ser retornada pela consulta',
+    displayOptions: {
+      show: {
+        endpoints: ['pixListCharges'],
+      },
+    },
+  },
+
+  {
+    displayName: 'paginacao.itensPorPagina',
+    name: 'itensPorPagina',
+    type: 'number',
+    default: null,
+    required: false,
+    description: 'Quantidade máxima de registros retornados em cada página',
+    displayOptions: {
+      show: {
+        endpoints: ['pixListCharges'],
+      },
+    },
+  },
+
 
   // Criar cobrança imediata (sem txid)
   {

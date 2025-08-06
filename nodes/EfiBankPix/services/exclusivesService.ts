@@ -8,6 +8,7 @@ import { pixCreateEvp } from '../endpoints/exclusives/key/pixCreateEvp';
 import { updateAccountConfig } from '../endpoints/exclusives/account/updateAccountConfig';
 import { listAccountConfig } from '../endpoints/exclusives/account/listAccountConfig';
 import { getAccountBalance } from '../endpoints/exclusives/account/getAccountBalance';
+import { pixGetReceipt } from '../endpoints/exclusives/pix/pixGetReceipt';
 
 export async function exclusivesService(
   this: IExecuteFunctions,
@@ -52,8 +53,12 @@ export async function exclusivesService(
       requestOptions = await detailReport(this, i);
     break;
 
-            default:
-                throw new Error(`Endpoint exclusivo Efí não implementado`);
+    case 'pixGetReceipt':
+      requestOptions = await pixGetReceipt(this, i);
+    break;
+
+    default:
+        throw new Error(`Endpoint exclusivo Efí não implementado: ${endpoint}`);
   }
 
   return requestOptions;

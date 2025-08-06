@@ -19,8 +19,24 @@ export const cobvConfig: INodeProperties[] = [
     },
   },
 
+  // Consultar cobrança
   {
-    displayName: 'inicio',
+    displayName: 'revisao',
+    name: 'revisao',
+    type: 'number',
+    default: null,
+		required: false,
+    description: 'Permite recuperar revisões anteriores de uma cobrança',
+    displayOptions: {
+      show: {
+        endpoints: ['pixDetailDueCharge'],
+      },
+    },
+  },
+
+  //Listar cobranças
+  {
+    displayName: '* inicio',
     name: 'inicio',
     type: 'string',
     default: '2025-01-01T00:00:00Z',
@@ -34,12 +50,125 @@ export const cobvConfig: INodeProperties[] = [
   },
 
   {
-    displayName: 'fim',
+    displayName: '* fim',
     name: 'fim',
     type: 'string',
     default: '2025-12-31T23:59:59Z',
     required: true,
     description: 'Data fim para o filtro da consulta',
+    displayOptions: {
+      show: {
+        endpoints: ['pixListDueCharges'],
+      },
+    },
+  },
+
+  {
+    displayName: 'cpf',
+    name: 'cpf',
+    type: 'string',
+		default: '',
+    required: false,
+    description: 'CPF do pagador',
+    displayOptions: {
+      show: {
+        endpoints: ['pixListDueCharges'],
+      },
+    },
+  },
+
+  {
+    displayName: 'cnpj',
+    name: 'cnpj',
+    type: 'string',
+		default: '',
+    required: false,
+    description: 'CNPJ do pagador',
+    displayOptions: {
+      show: {
+        endpoints: ['pixListDueCharges'],
+      },
+    },
+  },
+
+  {
+    displayName: 'locationPresente',
+    name: 'locationPresente',
+    type: 'options',
+    options: [
+      {
+        name: 'Não enviar',
+        value: 'none',
+        description: 'Não enviar este parâmetro na requisição',
+      },
+      {
+        name: 'true',
+        value: 'true',
+      },
+      {
+        name: 'false',
+        value: 'false',
+      },
+    ],
+    default: 'none',
+    required: false,
+    description: 'Indica se a cobrança tem ou não location associadas',
+    displayOptions: {
+      show: {
+        endpoints: ['pixListDueCharges'],
+      },
+    },
+  },
+
+  {
+    displayName: 'status',
+    name: 'status',
+    type: 'string',
+		default: '',
+    required: false,
+    description: 'Status da cobrança',
+    displayOptions: {
+      show: {
+        endpoints: ['pixListDueCharges'],
+      },
+    },
+  },
+
+  {
+    displayName: 'loteCobVId',
+    name: 'loteCobVId',
+    type: 'number',
+    default: null,
+    required: false,
+    description: 'Id do lote de cobrança com vencimento',
+    displayOptions: {
+      show: {
+        endpoints: ['pixListDueCharges'],
+      },
+    },
+  },
+
+  {
+    displayName: 'paginacao.paginaAtual',
+    name: 'paginaAtual',
+    type: 'number',
+    default: null,
+    required: false,
+    description: 'Página a ser retornada pela consulta',
+    displayOptions: {
+      show: {
+        endpoints: ['pixListDueCharges'],
+      },
+    },
+  },
+
+  {
+    displayName: 'paginacao.itensPorPagina',
+    name: 'itensPorPagina',
+    type: 'number',
+    default: null,
+    required: false,
+    description: 'Quantidade máxima de registros retornados em cada página',
     displayOptions: {
       show: {
         endpoints: ['pixListDueCharges'],

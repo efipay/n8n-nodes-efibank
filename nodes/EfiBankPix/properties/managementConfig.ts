@@ -52,8 +52,9 @@ export const managementConfig: INodeProperties[] = [
     },
   },
 
+  //Listar Pix recebidos
   {
-    displayName: 'inicio',
+    displayName: '* inicio',
     name: 'inicio',
     type: 'string',
     default: '2025-01-01T00:00:00Z',
@@ -67,7 +68,7 @@ export const managementConfig: INodeProperties[] = [
   },
 
   {
-    displayName: 'fim',
+    displayName: '* fim',
     name: 'fim',
     type: 'string',
     default: '2025-12-31T23:59:59Z',
@@ -79,6 +80,165 @@ export const managementConfig: INodeProperties[] = [
       },
     },
   },
+
+  {
+    displayName: 'txid',
+    name: 'txid',
+    type: 'string',
+		default: '',
+    required: false,
+    description: 'Identificador da transação',
+    displayOptions: {
+      show: {
+        endpoints: ['pixReceivedList'],
+      },
+    },
+  },
+
+  {
+    displayName: 'txIdPresente',
+    name: 'txIdPresente',
+    type: 'options',
+    options: [
+      {
+        name: 'Não enviar',
+        value: 'none',
+        description: 'Não enviar este parâmetro na requisição',
+      },
+      {
+        name: 'true',
+        value: 'true',
+      },
+      {
+        name: 'false',
+        value: 'false',
+      },
+    ],
+    default: 'none',
+    required: false,
+    description: 'Indica se os Pix recebidos têm ou não txid associadas',
+    displayOptions: {
+      show: {
+        endpoints: ['pixReceivedList'],
+      },
+    },
+  },
+
+   {
+    displayName: 'devolucaoPresente',
+    name: 'devolucaoPresente',
+    type: 'options',
+    options: [
+      {
+        name: 'Não enviar',
+        value: 'none',
+        description: 'Não enviar este parâmetro na requisição',
+      },
+      {
+        name: 'true',
+        value: 'true',
+      },
+      {
+        name: 'false',
+        value: 'false',
+      },
+    ],
+    default: 'none',
+    required: false,
+    description: 'Indica se os Pix enviados têm ou não devoluções associadas',
+    displayOptions: {
+      show: {
+        endpoints: ['pixReceivedList'],
+      },
+    },
+  },
+
+  {
+    displayName: 'cpf',
+    name: 'cpf',
+    type: 'string',
+		default: '',
+    required: false,
+    description: 'CPF do pagador',
+    displayOptions: {
+      show: {
+        endpoints: ['pixReceivedList'],
+      },
+    },
+  },
+
+  {
+    displayName: 'cnpj',
+    name: 'cnpj',
+    type: 'string',
+		default: '',
+    required: false,
+    description: 'CNPJ do pagador',
+    displayOptions: {
+      show: {
+        endpoints: ['pixReceivedList'],
+      },
+    },
+  },
+
+  {
+    displayName: 'paginacao.paginaAtual',
+    name: 'paginaAtual',
+    type: 'number',
+    default: null,
+    required: false,
+    description: 'Página a ser retornada pela consulta',
+    displayOptions: {
+      show: {
+        endpoints: ['pixReceivedList'],
+      },
+    },
+  },
+
+  {
+    displayName: 'paginacao.itensPorPagina',
+    name: 'itensPorPagina',
+    type: 'number',
+    default: null,
+    required: false,
+    description: 'Quantidade máxima de registros retornados em cada página',
+    displayOptions: {
+      show: {
+        endpoints: ['pixReceivedList'],
+      },
+    },
+  },
+
+  //Consultar Pix recebido
+  {
+    displayName: 'exibirCodigoBanco',
+    name: 'exibirCodigoBanco',
+    type: 'options',
+    options: [
+      {
+        name: 'Não enviar',
+        value: 'none',
+        description: 'Não enviar este parâmetro na requisição',
+      },
+      {
+        name: 'true',
+        value: 'true',
+      },
+      {
+        name: 'false',
+        value: 'false',
+      },
+    ],
+    default: 'none',
+    required: false,
+    description: 'Exibe ou não o código do banco',
+    displayOptions: {
+      show: {
+        endpoints: ['pixDetailReceived'],
+      },
+    },
+  },
+  
 
 
 ];

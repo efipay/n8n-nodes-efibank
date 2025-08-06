@@ -64,7 +64,7 @@ export async function cartaoService(
     break;
 
       default:
-        throw new Error(`Endpoint de Cartão não implementado`);
+        throw new Error(`Endpoint de Cartão não implementado: ${endpoint}`);
   }
 
   return requestOptions;

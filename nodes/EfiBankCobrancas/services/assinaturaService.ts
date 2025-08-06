@@ -100,7 +100,7 @@ export async function assinaturaService(
     break;
 
     default:
-       throw new Error(`Endpoint de Assinatura não implementado`);
+       throw new Error(`Endpoint de Assinatura não implementado: ${endpoint}`);
   }
 
   return requestOptions;

@@ -1,21 +1,19 @@
 import EfiPay from 'sdk-node-apis-efi'
-import getEfiBankConfig from '../../../../interfaces/credentials';
-import { IExecuteFunctions} from 'n8n-workflow';
+import getEfiBankConfig from '../../../../../interfaces/credentials';
+import { IExecuteFunctions } from 'n8n-workflow';
 
-export async function pixDeleteWebhook(
+export async function pixUnlinkTxidLocation(
   context: IExecuteFunctions,
   index: number,
-
 ): Promise<any> {
   try {
     const options = await getEfiBankConfig.call(context);
     const efipay = new EfiPay(options);
 
-    const pixKey = context.getNodeParameter('pixKey', index) as string;
-    
-    await efipay.pixDeleteWebhook({ chave: pixKey });
+    const id = context.getNodeParameter('id', index) as number;
 
-    return ['code: 204'];
+    const resposta = await efipay.pixUnlinkTxidLocation({ id });
+    return resposta;
   } catch (error: any) {
 
     let mensagemErro = error.message || error.mensagem || error.detail || "Ocorreu um erro desconhecido";
@@ -57,3 +55,5 @@ export async function pixDeleteWebhook(
     }));
   }
 }
+
+

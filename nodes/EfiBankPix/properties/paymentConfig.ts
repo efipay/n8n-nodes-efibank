@@ -34,8 +34,9 @@ export const paymentConfig: INodeProperties[] = [
     },
   },
 
+  //Listar Pix enviados
   {
-    displayName: 'inicio',
+    displayName: '* inicio',
     name: 'inicio',
     type: 'string',
     default: '2025-01-01T00:00:00Z',
@@ -49,7 +50,7 @@ export const paymentConfig: INodeProperties[] = [
   },
 
   {
-    displayName: 'fim',
+    displayName: '* fim',
     name: 'fim',
     type: 'string',
     default: '2025-12-31T23:59:59Z',
@@ -62,6 +63,107 @@ export const paymentConfig: INodeProperties[] = [
     },
   },
 
+  {
+    displayName: 'status',
+    name: 'status',
+    type: 'string',
+		default: '',
+    required: false,
+    description: 'Status da cobrança',
+    displayOptions: {
+      show: {
+        endpoints: ['pixSendList'],
+      },
+    },
+  },
+
+  {
+    displayName: 'devolucaoPresente',
+    name: 'devolucaoPresente',
+    type: 'options',
+    options: [
+      {
+        name: 'Não enviar',
+        value: 'none',
+        description: 'Não enviar este parâmetro na requisição',
+      },
+      {
+        name: 'true',
+        value: 'true',
+      },
+      {
+        name: 'false',
+        value: 'false',
+      },
+    ],
+    default: 'none',
+    required: false,
+    description: 'Indica se os Pix enviados têm ou não devoluções associadas',
+    displayOptions: {
+      show: {
+        endpoints: ['pixSendList'],
+      },
+    },
+  },
+
+  {
+    displayName: 'cpf',
+    name: 'cpf',
+    type: 'string',
+		default: '',
+    required: false,
+    description: 'CPF do pagador',
+    displayOptions: {
+      show: {
+        endpoints: ['pixSendList'],
+      },
+    },
+  },
+
+  {
+    displayName: 'cnpj',
+    name: 'cnpj',
+    type: 'string',
+		default: '',
+    required: false,
+    description: 'CNPJ do pagador',
+    displayOptions: {
+      show: {
+        endpoints: ['pixSendList'],
+      },
+    },
+  },
+
+  {
+    displayName: 'paginacao.paginaAtual',
+    name: 'paginaAtual',
+    type: 'number',
+    default: null,
+    required: false,
+    description: 'Página a ser retornada pela consulta',
+    displayOptions: {
+      show: {
+        endpoints: ['pixSendList'],
+      },
+    },
+  },
+
+  {
+    displayName: 'paginacao.itensPorPagina',
+    name: 'itensPorPagina',
+    type: 'number',
+    default: null,
+    required: false,
+    description: 'Quantidade máxima de registros retornados em cada página',
+    displayOptions: {
+      show: {
+        endpoints: ['pixSendList'],
+      },
+    },
+  },
+
+  
+// Detalhar qrcode
   {
     displayName: 'Pix copia e cola',
     name: 'pixCopiaECola',

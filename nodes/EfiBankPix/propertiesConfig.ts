@@ -8,6 +8,7 @@ import { batchConfig } from './properties/batchConfig';
 import { splitConfig } from './properties/splitConfig';
 import { webhooksConfig } from './properties/webhooksConfig';
 import { exclusivesConfig } from './properties/exclusivesConfig';
+import { automaticConfig } from './properties/automaticConfig';
 
 export const propertiesConfig: INodeProperties[] = [
   {
@@ -17,11 +18,12 @@ export const propertiesConfig: INodeProperties[] = [
     noDataExpression: true,
     options: [
       { name: 'Cobranças imediatas', value: 'cob' },
-      { name: 'Cobranças com vencimento', value: 'cobv' },
+      { name: 'Cobranças com vencimento', value: 'cobv' },    
+      { name: 'Pix Automático', value: 'automatic' },
       { name: 'Envio e Pagamento Pix', value: 'payment' },
       { name: 'Gestão de Pix', value: 'management' },
       { name: 'Payload Locations', value: 'location' },
-      { name: 'Cobranças em Lote', value: 'batch' },
+      //{ name: 'Cobranças em Lote', value: 'batch' },
       { name: 'Split de pagamento Pix', value: 'split' },
       { name: 'Webhooks', value: 'webhooks' },
       { name: 'Endpoints exclusivos EfÍ', value: 'exclusives' },
@@ -34,7 +36,6 @@ export const propertiesConfig: INodeProperties[] = [
     displayName: 'Endpoints para Cobranças Imediatas',
     name: 'endpoints',
     type: 'options',
-   
     options: [
       { name: 'Criar cobrança imediata (sem txid)', value: 'pixCreateImmediateCharge' },
       { name: 'Criar cobrança imediata (com txid)', value: 'pixCreateCharge' },
@@ -53,7 +54,6 @@ export const propertiesConfig: INodeProperties[] = [
     displayName: 'Endpoints para Cobranças com vencimento',
     name: 'endpoints',
     type: 'options',
-   
     options: [
       { name: 'Criar cobrança com vencimento', value: 'pixCreateDueCharge' },
       { name: 'Revisar cobrança com vencimento', value: 'pixUpdateDueCharge' },
@@ -67,11 +67,36 @@ export const propertiesConfig: INodeProperties[] = [
     },
   },
 
+   {
+    displayName: 'Endpoints para Pix Automático',
+    name: 'endpoints',
+    type: 'options',
+    options: [
+      { name: 'Criar recorrência de Pix Automático', value: 'pixCreateRecurrenceAutomatic' },
+      { name: 'Consultar recorrência de Pix Automático', value: 'pixDetailRecurrenceAutomatic' },
+      { name: 'Revisar recorrência de Pix Automático', value: 'pixUpdateRecurrenceAutomatic' },
+      { name: 'Consultar lista de recorrências de Pix Automático', value: 'pixListRecurrenceAutomatic' },
+      { name: 'Criar solicitação de confirmação de recorrência de Pix Automático', value: 'pixCreateRequestRecurrenceAutomatic' },
+      { name: 'Consultar solicitação de confirmação de recorrência de Pix Automático', value: 'pixDetailRequestRecurrenceAutomatic' },
+      { name: 'Revisar solicitação de confirmação de recorrência de Pix Automático', value: 'pixUpdateRequestRecurrenceAutomatic' },
+      { name: 'Criar cobrança de Pix Automático (com txid)', value: 'pixCreateAutomaticChargeTxid' },
+      { name: 'Revisar cobrança de Pix Automático', value: 'pixUpdateAutomaticCharge' },
+      { name: 'Consultar cobrança de Pix Automático', value: 'pixDetailAutomaticCharge' },
+      { name: 'Criar cobrança de Pix Automático (sem txid)', value: 'pixCreateAutomaticCharge' },
+      { name: 'Consultar lista de cobranças de Pix Automático', value: 'pixListAutomaticCharges' },
+      { name: 'Solicitar retentativa de Pix Automático', value: 'pixCRetryRequestAutomatic' },
+    ],
+    default: 'pixCreateRecurrenceAutomatic',
+    description: 'Selecione o endpoint que você deseja utilizar',
+    displayOptions: {
+      show: { transactionType: ['automatic'] },
+    },
+  },
+
   {
     displayName: 'Endpoints para Envio e Pagamento Pix',
     name: 'endpoints',
     type: 'options',
-   
     options: [
       { name: 'Requisitar envio de Pix', value: 'pixSend' },
       { name: 'Consultar Pix enviado através do endToEndId', value: 'pixSendDetail' },
@@ -91,7 +116,6 @@ export const propertiesConfig: INodeProperties[] = [
     displayName: 'Endpoints para Gestão de Pix',
     name: 'endpoints',
     type: 'options',
-   
     options: [
       { name: 'Consultar Pix', value: 'pixDetailReceived' },
       { name: 'Consultar Pix recebidos', value: 'pixReceivedList' },
@@ -109,13 +133,16 @@ export const propertiesConfig: INodeProperties[] = [
     displayName: 'Endpoints para Payload Locations',
     name: 'endpoints',
     type: 'options',
-   
     options: [
       { name: 'Criar location do payload', value: 'pixCreateLocation' },
       { name: 'Consultar locations cadastradas', value: 'pixLocationList' },
       { name: 'Recuperar location do payload', value: 'pixDetailLocation' },
       { name: 'Gerar QR Code de um location', value: 'pixGenerateQRCode' },
       { name: 'Desvincular um txid de um location', value: 'pixUnlinkTxidLocation' },
+      { name: 'Criar location do payload de recorrência de Pix Automático', value: 'pixCreateLocationRecurrenceAutomatic' },
+      { name: 'Consultar locations de recorrência de Pix Automático cadastradas', value: 'pixListLocationRecurrenceAutomatic' },
+      { name: 'Recuperar location do payload de recorrência de Pix Automático', value: 'pixDetailLocationRecurrenceAutomatic' },
+      { name: 'Desvincular uma recorrência de Pix Automático de um location', value: 'pixUnlinkLocationRecurrenceAutomatic' },
     ],
     default: 'pixCreateLocation',
     description: 'Selecione o endpoint que você deseja utilizar',
@@ -124,29 +151,27 @@ export const propertiesConfig: INodeProperties[] = [
     },
   },
 
-  {
-    displayName: 'Endpoints para Cobranças com vencimento em lote',
-    name: 'endpoints',
-    type: 'options',
-   
-    options: [
-      { name: 'Criar/Alterar lote de cobranças com vencimento', value: 'pixCreateDueChargeBatch' },
-      { name: 'Revisar cobranças específicas de um lote', value: 'pixUpdateDueChargeBatch' },
-      { name: 'Consultar lote de cobranças com vencimento', value: 'pixDetailDueChargeBatch' },
-      { name: 'Consultar lista de lotes de cobranças com vencimento', value: 'pixListDueChargeBatch' },
-    ],
-    default: 'pixCreateDueChargeBatch',
-    description: 'Selecione o endpoint que você deseja utilizar',
-    displayOptions: {
-      show: { transactionType: ['batch'] },
-    },
-  },
+  // {
+  //   displayName: 'Endpoints para Cobranças com vencimento em lote',
+  //   name: 'endpoints',
+  //   type: 'options',
+  //   options: [
+  //     { name: 'Criar/Alterar lote de cobranças com vencimento', value: 'pixCreateDueChargeBatch' },
+  //     { name: 'Revisar cobranças específicas de um lote', value: 'pixUpdateDueChargeBatch' },
+  //     { name: 'Consultar lote de cobranças com vencimento', value: 'pixDetailDueChargeBatch' },
+  //     { name: 'Consultar lista de lotes de cobranças com vencimento', value: 'pixListDueChargeBatch' },
+  //   ],
+  //   default: 'pixCreateDueChargeBatch',
+  //   description: 'Selecione o endpoint que você deseja utilizar',
+  //   displayOptions: {
+  //     show: { transactionType: ['batch'] },
+  //   },
+  // },
 
   {
     displayName: 'Endpoints para Split de pagamentos Pix',
     name: 'endpoints',
     type: 'options',
-   
     options: [
       { name: 'Configuração de um Split de pagamento (sem passar id)', value: 'pixSplitConfig' },
       { name: 'Configuração de um Split de pagamento (com id)', value: 'pixSplitConfigId' },
@@ -171,12 +196,17 @@ export const propertiesConfig: INodeProperties[] = [
     displayName: 'Endpoints para Webhooks',
     name: 'endpoints',
     type: 'options',
-   
     options: [
       { name: 'Configurar o webhook Pix', value: 'pixConfigWebhook' },
       { name: 'Exibir informações do webhook Pix', value: 'pixDetailWebhook' },
       { name: 'Consultar lista de webhooks', value: 'pixListWebhook' },
       { name: 'Cancelar o webhook Pix', value: 'pixDeleteWebhook' },
+      { name: 'Configurar o webhook de recorrência de Pix Automático', value: 'pixConfigWebhookRecurrenceAutomatic' },
+      { name: 'Exibir informações do webhook de recorrência de Pix Automático', value: 'pixListWebhookRecurrenceAutomatic' },
+      { name: 'Cancelar o webhook de recorrência de Pix Automático', value: 'pixDeleteWebhookRecurrenceAutomatic' },
+      { name: 'Configurar o webhook de cobrança de Pix Automático', value: 'pixConfigWebhookAutomaticCharge' },
+      { name: 'Exibir informações do webhook de cobrança de Pix Automático', value: 'pixListWebhookAutomaticCharge' },
+      { name: 'Cancelar o webhook de cobrança de Pix Automático', value: 'pixDeleteWebhookAutomaticCharge' },     
       { name: 'Reenviar webhook Pix', value: 'pixResendWebhook' },
     ],
     default: 'pixConfigWebhook',
@@ -190,7 +220,6 @@ export const propertiesConfig: INodeProperties[] = [
     displayName: 'Endpoints exclusivos EfÍ',
     name: 'endpoints',
     type: 'options',
-   
     options: [
       { name: 'Criar chave pix aleatória', value: 'pixCreateEvp' },
       { name: 'Listar chaves pix aleatórias', value: 'pixListEvp' },
@@ -198,6 +227,7 @@ export const propertiesConfig: INodeProperties[] = [
       { name: 'Buscar o saldo da conta', value: 'getAccountBalance' },
       { name: 'Criar/modificar configurações da conta', value: 'updateAccountConfig' },
       { name: 'Listar configurações da conta', value: 'listAccountConfig' },
+      { name: 'Obter comprovantes', value: 'pixGetReceipt' },
       { name: 'Listar infrações MED da conta', value: 'medList' },
       { name: 'Requisitar Extrato Conciliação', value: 'createReport' },
       { name: 'Solicitar Download Extrato Conciliação', value: 'detailReport' },
@@ -217,5 +247,6 @@ export const propertiesConfig: INodeProperties[] = [
   ...batchConfig,
   ...splitConfig,
   ...webhooksConfig,
-  ...exclusivesConfig  
+  ...exclusivesConfig,
+  ...automaticConfig
 ];

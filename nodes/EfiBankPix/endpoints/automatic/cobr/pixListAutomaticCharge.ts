@@ -1,21 +1,42 @@
 import EfiPay from 'sdk-node-apis-efi'
-import getEfiBankConfig from '../../../../interfaces/credentials';
-import { IExecuteFunctions} from 'n8n-workflow';
+import getEfiBankConfig from '../../../../../interfaces/credentials';
+import { IExecuteFunctions } from 'n8n-workflow';
 
-export async function pixResendWebhook(
+export async function pixListAutomaticCharge(
   context: IExecuteFunctions,
   index: number,
-
 ): Promise<any> {
   try {
     const options = await getEfiBankConfig.call(context);
     const efipay = new EfiPay(options);
+ 
+    const inicio = context.getNodeParameter('inicio', index) as string;
+    const fim = context.getNodeParameter('fim', index) as string;
 
-    const bodyWebhookResend = context.getNodeParameter('bodyWebhookResend', index) as string;
-    const body = JSON.parse(bodyWebhookResend)
+    const idRec = context.getNodeParameter('idRec', index, '') as string;
+    const cpf = context.getNodeParameter('cpf', index, '') as string;
+    const cnpj = context.getNodeParameter('cnpj', index, '') as string;
+    const status = context.getNodeParameter('status', index, '') as string;
+    const convenio = context.getNodeParameter('convenio', index, '') as string;
+    const paginacao = context.getNodeParameter('paginacao', index, 0) as number;
+    const itensPorPagina = context.getNodeParameter('itensPorPagina', index, 100) as number;
+
+    const params: any = {
+      inicio,
+      fim
+    };
+ 
+    if (idRec) params.idRec = idRec;
+    if (cpf) params.cpf = cpf;
+    if (cnpj) params.cnpj = cnpj;
+    if (status) params.status = status;
+    if (convenio) params.convenio = convenio;
+    if (paginacao) params.paginacao = paginacao;
+    if (itensPorPagina) params.itensPorPagina = itensPorPagina;
     
-    await efipay.pixResendWebhook({}, body);
-    return ['code: 202'];
+    // @ts-ignore
+    const resposta = await efipay.pixListAutomaticCharge(params);
+    return resposta;
   } catch (error: any) {
 
     let mensagemErro = error.message || error.mensagem || error.detail || "Ocorreu um erro desconhecido";
@@ -57,4 +78,3 @@ export async function pixResendWebhook(
     }));
   }
 }
-

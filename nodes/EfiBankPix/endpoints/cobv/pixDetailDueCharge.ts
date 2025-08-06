@@ -11,8 +11,16 @@ export async function pixDetailDueCharge(
     const efipay = new EfiPay(options);
 
     const txid = context.getNodeParameter('txid', index) as string;
+    
+    const params: any = { 
+      txid 
+    };
 
-    const resposta = await efipay.pixDetailDueCharge({ txid });
+    const revisao = context.getNodeParameter('revisao', index) as number;
+
+    if (typeof revisao === 'number' && !isNaN(revisao)) params.revisao = revisao;
+    
+    const resposta = await efipay.pixDetailDueCharge(params);
     return resposta;
 } catch (error: any) {
 

@@ -33,7 +33,7 @@ export async function paymentService(
       break;   
 
     default:
-        throw new Error(`Endpoint de envio e pagamento não implementado`);
+        throw new Error(`Endpoint de envio e pagamento não implementado: ${endpoint}`);
   }
 
   return requestOptions;

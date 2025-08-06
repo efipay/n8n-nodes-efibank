@@ -10,15 +10,15 @@ export async function listPlans(
     const options = await getEfiCobrancasConfig.call(context);
     const efipay = new EfiPay(options);
 
-    const name = context.getNodeParameter('plan_name', index, '') as string;
-    const limit = context.getNodeParameter('limit', index, 20) as number;
-    const offset = context.getNodeParameter('offset', index, 0) as number;
+    const name = context.getNodeParameter('name', index) as string;
+    const limit = context.getNodeParameter('limit', index) as number;
+    const offset = context.getNodeParameter('offset', index) as number;
 
     const params: any = {};
     
-    if (name) params.name = name;
-    if (limit) params.limit = limit;
-    if (offset) params.offset = offset;
+    if (name?.trim()) params.name = name;
+    if (typeof limit === 'number' && !isNaN(limit)) params.limit = limit;
+    if (typeof offset === 'number' && !isNaN(offset)) params.offset = offset;
 
     const resposta = await efipay.listPlans(params);
 

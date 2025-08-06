@@ -9,6 +9,7 @@ export const batchConfig: INodeProperties[] = [
     type: 'number',
     placeholder: '57',
     default: null,
+    required: true,
     description: 'Insira o id do lote',
     displayOptions: {
       show: {
@@ -22,8 +23,9 @@ export const batchConfig: INodeProperties[] = [
   },
 
 
+//Consultar lista de cobranças em lote
   {
-    displayName: 'inicio',
+    displayName: '* inicio',
     name: 'inicio',
     type: 'string',
     default: '2025-01-01T00:00:00Z',
@@ -37,12 +39,40 @@ export const batchConfig: INodeProperties[] = [
   },
 
   {
-    displayName: 'fim',
+    displayName: '* fim',
     name: 'fim',
     type: 'string',
     default: '2025-12-31T23:59:59Z',
     required: true,
     description: 'Data fim para o filtro da consulta',
+    displayOptions: {
+      show: {
+        endpoints: ['pixListDueChargeBatch'],
+      },
+    },
+  },
+
+  {
+    displayName: 'paginacao.paginaAtual',
+    name: 'paginaAtual',
+    type: 'number',
+    default: null,
+    required: false,
+    description: 'Página a ser retornada pela consulta',
+    displayOptions: {
+      show: {
+        endpoints: ['pixListDueChargeBatch'],
+      },
+    },
+  },
+
+  {
+    displayName: 'paginacao.itensPorPagina',
+    name: 'itensPorPagina',
+    type: 'number',
+    default: null,
+    required: false,
+    description: 'Quantidade máxima de registros retornados em cada página',
     displayOptions: {
       show: {
         endpoints: ['pixListDueChargeBatch'],

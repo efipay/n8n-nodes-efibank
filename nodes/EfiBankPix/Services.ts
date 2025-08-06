@@ -8,6 +8,7 @@ import { batchService } from './services/batchService';
 import { splitService } from './services/splitService';
 import { webhooksService } from './services/webhooksService';
 import { exclusivesService } from './services/exclusivesService';
+import { automaticService } from './services/automaticService';
 
 export async function execute(
   this: IExecuteFunctions,
@@ -25,6 +26,9 @@ export async function execute(
         break;
       case 'cobv':
         response = await cobvService.call(this, endpoint, i);
+        break;  
+      case 'automatic':
+        response = await automaticService.call(this, endpoint, i);
         break;
       case 'payment':
         response = await paymentService.call(this, endpoint, i);
