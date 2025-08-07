@@ -77,6 +77,22 @@ export const automaticConfig: INodeProperties[] = [
     },
   },
 
+  {
+    displayName: 'txid',
+    name: 'txid',
+    type: 'string',
+    default: '',
+    required: false,
+    description: 'Insira o txid da cobrança de Pix Automático',
+    displayOptions: {
+      show: {
+        endpoints: [
+          'pixDetailRecurrenceAutomatic'
+        ],
+      },
+    },
+  },
+
 // Revisar recorrência automática
   {
     displayName: 'Body da Requisição',

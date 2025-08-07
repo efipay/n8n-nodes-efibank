@@ -12,7 +12,13 @@ export async function pixDetailRecurrenceAutomatic(
  
     const idRec = context.getNodeParameter('idRec', index) as string;
 
-    const params = { idRec };
+    const params: any = {
+       idRec 
+    };
+
+    const txid = context.getNodeParameter('txid', index) as string;
+    if (txid) params.txid = txid;
+
 // @ts-ignore
     const resposta = await efipay.pixDetailRecurrenceAutomatic(params);
     return resposta;

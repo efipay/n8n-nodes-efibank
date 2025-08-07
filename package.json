@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-efibank",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Nó personalizado para integração com as APIs Cobranças e Pix do Efi Bank, permitindo operações de pagamentos, recebimentos e gerenciamento de transações financeiras.",
   "keywords": [
     "n8n-community-node-package",
